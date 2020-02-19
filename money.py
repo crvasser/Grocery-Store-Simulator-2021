@@ -6,8 +6,8 @@ class money:
         self.amount = amount
         return self
     # need get money function
-    def get_money(self):
+    def getMoney(self):
         return self.amount
     # need set money function
-    def set_money(input):
+    def setMoney(input):
         amount = input
