@@ -9,4 +9,4 @@ if "start" in string:
     while():
         string = input("type product (amount) to add item to stock")
         if string[0] in supplier.getProduce():
-            store.add(string[0])
+            store.add(string[0], string[1])
