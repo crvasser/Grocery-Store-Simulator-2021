@@ -5,8 +5,8 @@ class money:
     def __init__(self, amount):
         self.amount = amount
     # need get money function
-    def get_money(self):
+    def getMoney(self):
         return self.amount
     # need set money function
-    def set_money(input):
+    def setMoney(input):
         amount = input
