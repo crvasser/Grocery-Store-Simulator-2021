@@ -12,11 +12,12 @@ if 'start' in string:
     store = store()
     while (1):
         string = input("type product (amount) to add item to stock")
-        if string[0] in supplier.getProduce():
-            if isinstance(string[1], 'int'):
-                if isinstance(string[2], 'int'):
-                    produce = string[0]
-                    amount = string[1]
-                    userSellPrice = string[2]
+        strings = string.split()
+        if strings[0] in supplier.getProduce():
+            if isinstance(strings[1], 'int'):
+                if isinstance(strings[2], 'int'):
+                    produce = strings[0]
+                    amount = strings[1]
+                    userSellPrice = strings[2]
                     store.add(produce, amount, supplier, userSellPrice, money)
 
