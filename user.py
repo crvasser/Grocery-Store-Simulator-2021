@@ -11,9 +11,9 @@ if 'start' in string:
     supplier = supplier()
     store = store()
     while (1):
-        string = input("type product (amount) to add item to stock")
+        string = input("type (product) (amount) (sell price) to add item to stock")
         strings = string.split()
-        if strings[0] in supplier.getProduce():
+        if supplier.stockAvailable(strings[0], strings[1])
             if isinstance(strings[1], 'int'):
                 if isinstance(strings[2], 'int'):
                     produce = strings[0]
