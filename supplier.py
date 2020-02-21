@@ -8,20 +8,21 @@
 # Purchase Stock
 # Stock Availability
 # Remove from Inventory
-class Supplier:
-    inventory = [["Apples", "banana", "carrot"], [130, 23, 95], [0.75, 0.67, 0.56]]
+
+
+
+class supplier:
+    inventory = [["Apples", 130, 0.75], ["banana", 23, 0.67], ["carrot", 95, 0.56]]
 
     # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
-        self.stock = Supplier.inventory
+        self.stock = supplier.inventory
 
     # takes in item name and amount requested
     #
     def purchaseStock(self, item, amount):
-        if stockAvailable(self, item, amount):
-            removeFromInventory(self, item, amount)
-
-            return
+        if self.stockAvailable(self, item, amount):
+            return self.removeFromInventory(self, item, amount)
 
     # checks if the item can be purchased in that amount
     def stockAvailable(self, item, amount):
@@ -36,3 +37,9 @@ class Supplier:
     # removes from inventory and returns true.
     def removeFromInventory(self, item, amount):
         return
+
+    # returns the price of the item from seller
+    def sellerItemPrice(self, item):
+        for i in self.stock:
+            if item in i[0]:
+                return i[2]
