@@ -6,6 +6,8 @@ print(supplier.sellerItemPrice("Carrots"))
 print(supplier.stockAvailable("Carrots", 10))
 print(supplier.removeFromInventory("Carrots", 10))
 print(supplier.purchaseStock("Carrots", 10))
+print("success test")
+
 
 
 
