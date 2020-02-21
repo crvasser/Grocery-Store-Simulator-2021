@@ -12,7 +12,7 @@
 
 
 class supplier:
-    inventory = [["Apples", 130, 0.75], ["banana", 23, 0.67], ["carrot", 95, 0.56]]
+    inventory = [["Apples", 130, 0.75], ["Bananas", 23, 0.67], ["Carrots", 95, 0.56]]
 
     # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
