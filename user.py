@@ -14,8 +14,8 @@ if 'start' in string:
         string = input("type (product) (amount) (sell price) to add item to stock")
         strings = string.split()
         if supplier.stockAvailable(strings[0], strings[1])
-            if isinstance(strings[1], 'int'):
-                if isinstance(strings[2], 'int'):
+            if strings[1].isDigit():
+                if strings[2].isDigit():
                     produce = strings[0]
                     amount = strings[1]
                     userSellPrice = strings[2]
