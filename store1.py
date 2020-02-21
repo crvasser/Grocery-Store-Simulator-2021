@@ -15,7 +15,6 @@ class store:
             print("Cannot afford " + amount + " " + product + "\n")
             return
         if supplier.stockAvailable(product, amount):
-            sellPrice = supplier.sellerItemPrice(product)
             self.checkInventory(product, amount, userPrice)
 
             money.setMoney(money.getMoney()-(supplier.sellerItemPrice(product)*amount))
