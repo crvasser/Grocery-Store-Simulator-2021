@@ -15,4 +15,8 @@ if 'start' in string:
         if string[0] in supplier.getProduce():
             if isinstance(string[1], 'int'):
                 if isinstance(string[2], 'int'):
-                    store.add(string[0], string[1], supplier, money)
+                    produce = string[0]
+                    amount = string[1]
+                    userSellPrice = string[2]
+                    store.add(produce, amount, supplier, userSellPrice, money)
+
