@@ -51,3 +51,4 @@ class supplier:
         for i in self.stock:
             if item in i[0]:
                 return i[2]
+        return False
