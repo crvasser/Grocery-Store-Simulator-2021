@@ -2,7 +2,7 @@ from money import money
 
 
 class store:
-    inventory = [[], [], []]
+    inventory = list()
 # stored like [PRODUCT, STOCK, PRICE]
 
     def __init__(self):
@@ -16,7 +16,6 @@ class store:
             return
         if supplier.stockAvailable(product, amount):
             self.checkInventory(product, amount, userPrice)
-
             money.setMoney(money.getMoney()-(supplier.sellerItemPrice(product)*amount))
         else:
             print(amount + " " + product + " not in stock\n")
