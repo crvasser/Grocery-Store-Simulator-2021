@@ -41,6 +41,7 @@ class supplier:
     def removeFromInventory(self, item, amount):
         for i in self.stock:
             if item in i[0]:
+                print("hello ", i[1])
                 i[1] = i[1] - amount
                 if i[1] == 0:
                     self.stock.remove(i)

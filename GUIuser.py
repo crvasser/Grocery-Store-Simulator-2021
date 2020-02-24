@@ -70,8 +70,9 @@ def buyProduce():
 
 
 def checkInventory():
+    background = thorpy.Background.make(image="./pictures/wholeChicken.png")
     background.unblit_and_reblit()
-    thorpy.launch_blocking_alert(title="Inventory check", text=store.availStockAsText, ok_text="ok", font_size=12, font_color=(255, 255, 255))
+    thorpy.launch_blocking_alert(title="Inventory check", text=store.availStockAsText(), ok_text="ok", font_size=12, font_color=(255, 255, 255))
     begin()
 
 def checkStock():
@@ -91,9 +92,9 @@ screen.fill((255, 255, 255))
 money = money(2000)
 supplier = supplier()
 store = store()
-application = thorpy.Application((500, 500), "Launching alerts")
+application = thorpy.Application((500, 500), "Grocery Store Simulator 2021")
 button = thorpy.make_button("Begin game", func=begin)
-background = thorpy.Background.make(image=thorpy.style.EXAMPLE_IMG, elements=[button])
+background = thorpy.Background.make(image="./pictures/thick.png", elements=[button])
 menu = thorpy.Menu(background)
 product = ""
 amount = 0

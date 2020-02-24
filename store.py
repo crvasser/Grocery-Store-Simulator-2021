@@ -17,6 +17,7 @@ class store:
         if supplier.stockAvailable(product, amount):
             self.checkInventory(product, amount, userPrice)
             money.setMoney(money.getMoney()-(supplier.sellerItemPrice(product)*amount))
+            supplier.purchaseStock(product, amount)
             return True
         else:
             print(str(amount) + " " + str(product) + " not in stock\n")
