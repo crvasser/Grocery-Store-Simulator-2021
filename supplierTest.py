@@ -5,7 +5,8 @@ supplier = supplier()
 print(supplier.sellerItemPrice("Carrots"))
 print(supplier.stockAvailable("Carrots", 10))
 print(supplier.removeFromInventory("Carrots", 10))
-print(supplier.purchaseStock("Carrots", 10))
+print(supplier.purchaseStock("Carrots", 85))
+print(supplier.availStockAsList())
 print("success test")
 
 

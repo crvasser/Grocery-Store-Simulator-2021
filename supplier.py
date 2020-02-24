@@ -1,14 +1,8 @@
 # global inventory array
-
-# need init function, initialize class and inventory array
-
-# need purchase stock function, checks if stock is available and removes it from inventory array
-# TODO
-# Figure out how the inventory will work, Array or file? - currently use a static array, later import file
-# Purchase Stock
-# Stock Availability
-# Remove from Inventory
-
+#
+# remove stock if stock is empty
+# file input for inventory
+#
 
 
 class supplier:
@@ -48,6 +42,8 @@ class supplier:
         for i in self.stock:
             if item in i[0]:
                 i[1] = i[1] - amount
+                if i[1] == 0:
+                    self.stock.remove(i)
                 return True
         return False
 
