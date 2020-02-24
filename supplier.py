@@ -58,6 +58,12 @@ class supplier:
                 return i[2]
         return False
 
+    def availStockAsText(self):
+        names = ""
+        for i in self.stock:
+            names = names + str(i[1]) + " " + i[0] + " at " + str(i[2]) + " each " + "\n"
+        return names
+
     def availStockAsList(self):
         names = list()
         for i in self.stock:
