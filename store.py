@@ -2,7 +2,7 @@ from money import money
 
 
 class store:
-    inventory = [[], [], []]
+    inventory = list()
 # stored like [PRODUCT, STOCK, PRICE]
 
     def __init__(self):
@@ -13,13 +13,20 @@ class store:
     def add(self, product, amount, supplier, userPrice, money):
         if money.getMoney() < supplier.sellerItemPrice(product) * amount:
             print("Cannot afford " + amount + " " + product + "\n")
-            return
+            return False
         if supplier.stockAvailable(product, amount):
             self.checkInventory(product, amount, userPrice)
-
             money.setMoney(money.getMoney()-(supplier.sellerItemPrice(product)*amount))
+            return True
         else:
-            print(amount + " " + product + " not in stock\n")
+            print(str(amount) + " " + str(product) + " not in stock\n")
+            return False
+
+    def availStockAsText(self):
+        names = ""
+        for i in self.inventory:
+            names = names + str(i[1]) + " " + i[0] + " at " + str(i[2]) + " each " + "\n"
+        return names
 
 # checks if there is an entry in the store's stock for the given product then either creates a new entry
 # or updates the existing entry's amount value
@@ -29,6 +36,8 @@ class store:
                 i[1] = i[1] + amount
                 return
         self.inventory.append([product, amount, userPrice])
+
+
 
 # need init function, init store init inventory array
 

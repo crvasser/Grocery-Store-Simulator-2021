@@ -10,14 +10,20 @@ if 'start' in string:
     money = money(2000)
     supplier = supplier()
     store = store()
-    while (1):
-        string = input("type (product) (amount) (sell price) to add item to stock")
-        strings = string.split()
-        if supplier.stockAvailable(strings[0], strings[1])
-            if isinstance(strings[1], 'int'):
-                if isinstance(strings[2], 'int'):
-                    produce = strings[0]
-                    amount = strings[1]
-                    userSellPrice = strings[2]
-                    store.add(produce, amount, supplier, userSellPrice, money)
+    while 1:
+        string = input("type addItem or checkInventory ")
+        if 'addItem' in string:
+            string = input("(item) (amount) (cost), or quit ")
+            strings = string.split()
+            if strings[1].isdigit():
+                if supplier.stockAvailable(strings[0], int(strings[1])):
+                    if strings[2].isdigit():
+                        produce = strings[0]
+                        amount = int(strings[1])
+                        userSellPrice = int(strings[2])
+                        store.add(produce, amount, supplier, userSellPrice, money)
+        if 'checkInventory' in string:
+            print("money = ", money.amount)
+            print("inventory = ", store.inventory)
+
 
