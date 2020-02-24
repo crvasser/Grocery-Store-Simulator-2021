@@ -38,6 +38,11 @@ class supplier:
                 else:
                     return False
 
+    def stockAmountAvailable(self, item):
+        for i in self.stock:
+            if item in i[0]:
+                return item[1]
+
     # removes from inventory and returns true.
     def removeFromInventory(self, item, amount):
         for i in self.stock:
@@ -52,3 +57,9 @@ class supplier:
             if item in i[0]:
                 return i[2]
         return False
+
+    def availStockAsList(self):
+        names = list()
+        for i in self.stock:
+            names.append(i[0])
+        return names

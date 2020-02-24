@@ -29,5 +29,7 @@ class store:
                 return
         self.inventory.append([product, amount, userPrice])
 
+
+
 # need init function, init store init inventory array
 
