@@ -3,14 +3,26 @@
 # remove stock if stock is empty
 # file input for inventory
 #
-
+import random
 
 class supplier:
     inventory = [["Apples", 130, 0.75], ["Bananas", 23, 0.67], ["Carrots", 95, 0.56]]
+    inventory2 = [[]]
+    fileNames = ["SupplierInventory1", "SupplierInventory2", "SupplierInventory3", "SupplierInventory4",
+                 "SupplierInventory5", "SupplierInventory6", "SupplierInventory7", "SupplierInventory8",
+                 "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12"]
 
     # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
-        self.stock = supplier.inventory
+        self.stock = supplier.fileRead(self)
+
+    def fileRead(self):
+        with open("./Supplier/" + supplier.fileNames[random.randint(0, len(supplier.fileNames) - 1)]) as file:
+            inventory2 = [line.split() for line in file]
+        for i in inventory2:
+            i[1] = int(i[1])
+            i[2] = float(i[2])
+        return inventory2
 
     # takes in item name and amount requested
     #
