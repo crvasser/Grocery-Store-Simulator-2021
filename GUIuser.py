@@ -57,7 +57,7 @@ def buyProduce():
     slider = thorpy.Inserter(name="amount")
     slider1 = thorpy.Inserter(name="sell price")
     buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
-    togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[1], always_value=False)
+    togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
     radio_and_toggable = buttons
     elements = [title_element] + radio_and_toggable + [slider, slider1, button, button1]
     central_box = thorpy.Box.make(elements=elements)
