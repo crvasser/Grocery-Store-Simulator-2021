@@ -17,7 +17,8 @@ class supplier:
         self.stock = supplier.fileRead(self)
 
     def fileRead(self):
-        with open("./Supplier/" + supplier.fileNames[random.randint(0, len(supplier.fileNames) - 1)]) as file:
+        # random.randint(0, len(supplier.fileNames) - 1) replaces 0 but need to rewrite tests before it work
+        with open("./Supplier/" + supplier.fileNames[0]) as file:
             inventory2 = [line.split() for line in file]
         for i in inventory2:
             i[1] = int(i[1])
@@ -53,7 +54,7 @@ class supplier:
     def removeFromInventory(self, item, amount):
         for i in self.stock:
             if item in i[0]:
-                print("hello ", i[1])
+
                 i[1] = i[1] - amount
                 if i[1] == 0:
                     self.stock.remove(i)

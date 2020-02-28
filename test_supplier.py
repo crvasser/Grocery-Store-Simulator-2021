@@ -5,7 +5,7 @@ class TestSupplier(unittest.TestCase):
     def setUp(self):
         self.supplier = supplier()
 
-class TestPurchase(TestSupplier):
+class TestAll(TestSupplier):
 
     def test_purchaseStock1(self):
         self.assertEqual(self.supplier.sellerItemPrice("Carrots"), 0.56)
