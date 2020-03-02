@@ -12,6 +12,7 @@ def finishPurchase():
     sellPrice = slider1.get_value()
     product = ""
     if togglable_pool.get_selected():
+        product = togglable_pool.get_selected().get_fulltext()
         if amount.isdigit():
             if sellPrice.isdigit():
                 if store.add(product, int(amount), supplier, int(sellPrice), money):
