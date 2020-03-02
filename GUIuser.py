@@ -2,7 +2,7 @@ import pygame, thorpy
 from supplier import supplier
 from store import store
 from money import money
-def finishPurhcase():
+def finishPurchase():
     global amount
     global product
     global sellPrice
@@ -10,17 +10,21 @@ def finishPurhcase():
     global slider1
     amount = slider.get_value()
     sellPrice = slider1.get_value()
-    product = togglable_pool.get_selected().get_full_txt()
-
-    if amount.isdigit():
-        if sellPrice.isdigit():
-            if store.add(product, int(amount), supplier, int(sellPrice), money):
-                print("amount", amount)
-                print("sellPrice", sellPrice)
-                print("product", product)
-                successfulPurchase()
-            else:
-                unSuccessfulPurchase()
+    product = ""
+    if togglable_pool.get_selected():
+        if amount.isdigit():
+            if sellPrice.isdigit():
+                if store.add(product, int(amount), supplier, int(sellPrice), money):
+                    print("amount", amount)
+                    print("sellPrice", sellPrice)
+                    print("product", product)
+                    successfulPurchase()
+                else:
+                    unSuccessfulPurchase()
+    else:
+        thorpy.launch_blocking_alert(title="No item selected",
+                                     text="Please choose an item to purchase",
+                                     ok_text="ok", font_size=12, font_color=(0, 0, 0))
 
 
 def unSuccessfulPurchase():
@@ -59,7 +63,7 @@ pygame.draw.rect(screen, (255,0,0), rect)
 pygame.display.flip()
 
 #declaration of some ThorPy elements ...
-button1 = thorpy.make_button("purchase", func=finishPurhcase)
+button1 = thorpy.make_button("purchase", func=finishPurchase)
 button2 = thorpy.make_button("check Stock", func = checkStock)
 button = thorpy.make_button("Check Inventory", func = checkInventory)
 title_element = thorpy.make_text("add item", 35, (255, 255, 0))
