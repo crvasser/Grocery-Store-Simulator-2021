@@ -34,8 +34,13 @@ class store:
     def checkInventory(self, product, amount, userPrice):
         for i in self.inventory:
             if product in i[0]:
-                i[1] = i[1] + amount
-                return
+                if userPrice == i[2]:
+                    i[1] = i[1] + amount
+                    return
+                else:
+                    i[1] = i[1] + amount
+                    i[2] = userPrice
+                    return
         self.inventory.append([product, amount, userPrice])
 
 
