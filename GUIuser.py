@@ -59,7 +59,7 @@ def buyProduce():
     buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
     togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
     radio_and_toggable = buttons
-    elements = [title_element] + radio_and_toggable + [slider, slider1, button, button1]
+    elements = [title_element] + radio_and_toggable + [slider, slider1, button1, button]
     central_box = thorpy.Box.make(elements=elements)
     central_box.fit_children(margins=(30, 30))
     central_box.center()
