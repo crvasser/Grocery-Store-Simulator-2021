@@ -40,12 +40,47 @@ def checkStock():
 def successfulPurchase():
     global product
     global amount
-    thorpy.launch_blocking_alert(title="Success", text="purchased " + amount + " " + product, ok_text="ok", font_size=12, font_color=(0, 0, 0))
+    makeBox()
 
 def checkInventory():
+    global central_box
     #background = thorpy.Background.make(image="./pictures/wholeChicken.png")
-    thorpy.launch_blocking_alert(title="Inventory check", text=store.availStockAsText(), ok_text="ok", font_size=12, font_color=(255, 255, 255))
+    makeBox()
 
+def makeBox():
+    global central_box
+    global menu
+    global slider
+    global slider1
+    global togglable_pool
+
+    button1 = thorpy.make_button("purchase", func=finishPurchase)
+    button3 = thorpy.make_button(text="store inventory\n" + store.availStockAsText())
+    button4 = thorpy.make_button(text="supplier inventory\n" + supplier.availStockAsText())
+    title_element = thorpy.make_text("add item", 35, (255, 255, 0))
+    slider = thorpy.Inserter(name="amount")
+    slider1 = thorpy.Inserter(name="sell price")
+    buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
+    togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
+    radio_and_toggable = buttons
+    elements = [title_element] + radio_and_toggable + [slider, slider1, button1, button3, button4]
+    central_box = thorpy.Box.make(elements=elements)
+    central_box.fit_children(margins=(30, 30))
+    central_box.center()
+    central_box.add_lift()
+    central_box.set_main_color((220, 220, 220, 180))
+    menu = thorpy.Menu(central_box)
+    for element in menu.get_population():
+        element.surface = screen
+    central_box.set_topleft((100, 100))
+    central_box.blit()
+    central_box.update()
+
+togglable_pool = 0
+slider = 0
+slider1 = 0
+menu = 0
+central_box = 0
 money
 amount = 0
 product = ""
@@ -64,30 +99,10 @@ pygame.draw.rect(screen, (255,0,0), rect)
 pygame.display.flip()
 
 #declaration of some ThorPy elements ...
-button1 = thorpy.make_button("purchase", func=finishPurchase)
-button2 = thorpy.make_button("check Stock", func = checkStock)
-button = thorpy.make_button("Check Inventory", func = checkInventory)
-title_element = thorpy.make_text("add item", 35, (255, 255, 0))
-slider = thorpy.Inserter(name="amount")
-slider1 = thorpy.Inserter(name="sell price")
-buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
-togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
-radio_and_toggable = buttons
-elements = [title_element] + radio_and_toggable + [slider, slider1, button, button1, button2]
-central_box = thorpy.Box.make(elements=elements)
-central_box.fit_children(margins=(30, 30))
-central_box.center()
-central_box.add_lift()
-central_box.set_main_color((220, 220, 220, 180))
+money = money(2000)
+makeBox()
 #we regroup all elements on a menu, even if we do not launch the menu
-menu = thorpy.Menu(central_box)
-#important : set the screen as surface for all elements
-for element in menu.get_population():
-    element.surface = screen
-#use the elements normally...
-central_box.set_topleft((100,100))
-central_box.blit()
-central_box.update()
+
 
 playing_game = True
 while playing_game:
@@ -106,5 +121,4 @@ while playing_game:
                 pygame.draw.rect(screen, (255,0,0), rect) #drat new
                 pygame.display.update(rect)
         menu.react(event) #the menu automatically integrate your elements
-
 pygame.quit()
