@@ -47,6 +47,7 @@ def hideMenu():
     global white
     global hideMenuStat
     global central_box
+    global menu
     screen.fill(white)
     hideMenuStat = 1
     button = thorpy.make_button("show menu", func=makeBox)
