@@ -49,7 +49,7 @@ class store:
         if amount == 0:
             return
         self.inventory[productIndex][1] -= amount
-        money += amount*self.inventory[productIndex][2]
+        money.setMoney(money.getMoney() + amount*self.inventory[productIndex][2])
         if self.inventory[productIndex][1] == 0:
             self.inventory.remove(self.inventory[productIndex])
 
