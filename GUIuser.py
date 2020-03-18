@@ -2,6 +2,7 @@ import pygame, thorpy
 from supplier import supplier
 from store import store
 from money import money
+from customer import customer
 def finishPurchase():
     global amount
     global product
@@ -146,7 +147,7 @@ rect = pygame.Rect((0, 0, 50, 50))
 rect.center = screen.get_rect().center
 clock = pygame.time.Clock()
 score = 0
-
+#customer = customer()
 pygame.display.flip()
 white = (255,255,255)
 #declaration of some ThorPy elements ...
@@ -155,17 +156,21 @@ makeBox()
 #we regroup all elements on a menu, even if we do not launch the menu
 
 curTime = pygame.time.get_ticks()
+curTime1 = pygame.time.get_ticks()
 playing_game = True
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
-    if curTime + 1000 < pygame.time.get_ticks():
+    if curTime + 500 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - 10)
         curTime = pygame.time.get_ticks()
+    if curTime1 + 1000 < pygame.time.get_ticks():
+        curTime1 = pygame
+        #customer.buyProduct(customer, store, money)
     screen.fill(white, (0, 0, screen.get_width()//8, screen.get_height()//16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
-    if money.getMoney() == 0:
+    if money.getMoney() < 0:
         playing_game = False
     for event in pygame.event.get():
         central_box.blit()
