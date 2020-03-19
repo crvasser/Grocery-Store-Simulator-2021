@@ -9,6 +9,12 @@ def finishPurchase():
     global slider
     global slider1
     global togglable_pool
+    global flagUnavail
+    global flagInvalidPrice
+    global flagInvalidAmount
+    flagUnavail = 0
+    flagInvalidPrice = 0
+    flagInvalidAmount = 0
     amount = slider.get_value()
     sellPrice = slider1.get_value()
     product = ""
@@ -22,20 +28,14 @@ def finishPurchase():
                     print("product", product)
                     successfulPurchase()
                 else:
-                    unSuccessfulPurchase()
-    else:
-        thorpy.launch_blocking_alert(title="No item selected",
-                                     text="Please choose an item to purchase",
-                                     ok_text="ok", font_size=12, font_color=(0, 0, 0))
-
-
-def unSuccessfulPurchase():
-    global product
-    global amount
-
-    thorpy.launch_blocking_alert(title="Error", text="Supplier does not have " + str(amount) + " " + product + " in stock", ok_text="ok", font_size=12, font_color=(0, 0, 0))
-
-
+                    flagUnavail = 1
+                    makeBox()
+            else:
+                flagInvalidPrice = 1
+                makeBox()
+        else:
+            flagInvalidAmount = 1
+            makeBox()
 
 def successfulPurchase():
     global product
@@ -47,6 +47,7 @@ def hideMenu():
     global white
     global hideMenuStat
     global central_box
+    global menu
     screen.fill(white)
     hideMenuStat = 1
     button = thorpy.make_button("show menu", func=makeBox)
@@ -56,6 +57,7 @@ def hideMenu():
     central_box.add_lift()
     central_box.set_main_color((220, 220, 220, 180))
     menu = thorpy.Menu(central_box)
+    screen.fill(white)
     for element in menu.get_population():
         element.surface = screen
     central_box.set_topleft((100, 100))
@@ -72,19 +74,40 @@ def makeBox():
     global hideMenuStat
     global white
     global screen
+    global flagUnavail
+    global flagInvalidPrice
+    global flagInvalidAmount
     screen.fill(white)
     hideMenuStat = 0
-    button0 = thorpy.make_button("hide menu", func=hideMenu)
-    button1 = thorpy.make_button("purchase", func=finishPurchase)
-    button3 = thorpy.make_button(text="store inventory\n" + store.availStockAsText())
-    button4 = thorpy.make_button(text="supplier inventory\n" + supplier.availStockAsText())
-    title_element = thorpy.make_text("Grocery Store Sim", 35, (255, 255, 0))
+    button0 = thorpy.make_button("Hide menu", func=hideMenu)
+    button1 = thorpy.make_button("Purchase", func=finishPurchase)
+    if len(store.availStockAsText()) != 0:
+        button3 = thorpy.make_button(text="Store inventory\n" + store.availStockAsText())
+    else:
+        button3 = thorpy.make_button(text="Store inventory empty")
+    if len(supplier.availStockAsText()) != 0:
+        button4 = thorpy.make_button(text="Supplier inventory\n" + supplier.availStockAsText())
+    else:
+        button4 = thorpy.make_button(text="Supplier inventory empty")
+    title_element0 = thorpy.make_text("Grocery Store Sim 2021", 25, (255, 255, 0))
+    title_element = thorpy.make_text("123", 0, (255, 255, 0))
+    if flagUnavail == 1:
+        title_element = thorpy.make_text("Supplier Does not have enough", 15, (255, 0, 0))
+    elif flagInvalidPrice == 1:
+        title_element = thorpy.make_text("Invalid price entered", 15, (255, 0, 0))
+    elif flagInvalidAmount == 1:
+        title_element = thorpy.make_text("Invalid amount entered", 15, (255, 0, 0))
+    flagUnavail = 0
+    flagInvalidPrice = 0
+    flagInvalidAmount = 0
     slider = thorpy.Inserter(name="amount")
     slider1 = thorpy.Inserter(name="sell price")
     buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
+    if len(buttons) == 0:
+        buttons = [thorpy.Togglable.make("No Supplier stock")]
     togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
     radio_and_toggable = buttons
-    elements = [button0] + [title_element] + radio_and_toggable + [slider, slider1, button1, button3, button4]
+    elements = [title_element0] + [button0] + [title_element] + radio_and_toggable + [slider, slider1, button1, button3, button4]
     central_box = thorpy.Box.make(elements=elements)
     central_box.fit_children(margins=(30, 30))
     central_box.center()
@@ -96,6 +119,8 @@ def makeBox():
     central_box.set_topleft((100, 100))
     central_box.blit()
     central_box.update()
+
+
 
 pygame.init()
 myfont = pygame.font.SysFont("monospace", 16)
@@ -113,12 +138,15 @@ store = store()
 pygame.init()
 pygame.key.set_repeat(300, 30)
 screen = pygame.display.set_mode((1000,1000))
+flagUnavail = 0
+flagInvalidPrice = 0
+flagInvalidAmount = 0
 screen.fill((255,255,255))
 rect = pygame.Rect((0, 0, 50, 50))
 rect.center = screen.get_rect().center
 clock = pygame.time.Clock()
 score = 0
-pygame.draw.rect(screen, (255,0,0), rect)
+
 pygame.display.flip()
 white = (255,255,255)
 #declaration of some ThorPy elements ...
@@ -126,27 +154,31 @@ money = money(2000)
 makeBox()
 #we regroup all elements on a menu, even if we do not launch the menu
 
-
+curTime = pygame.time.get_ticks()
 playing_game = True
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
+    if curTime + 1000 < pygame.time.get_ticks():
+        money.setMoney(money.getMoney() - 10)
+        curTime = pygame.time.get_ticks()
     screen.fill(white, (0, 0, screen.get_width()//8, screen.get_height()//16))
-    scoretext = myfont.render("Money {0}".format(money.getMoney()), 1, (0,0,0))
+    scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
-    score += 1
+    if money.getMoney() == 0:
+        playing_game = False
     for event in pygame.event.get():
         central_box.blit()
         central_box.update()
         if event.type == pygame.QUIT:
             playing_game = False
             break
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                pygame.draw.rect(screen, (255,255,255), rect) #delete old
-                pygame.display.update(rect)
-                rect.move_ip((-5,0))
-                pygame.draw.rect(screen, (255,0,0), rect) #drat new
-                pygame.display.update(rect)
+#        elif event.type == pygame.KEYDOWN:
+#            if event.key == pygame.K_LEFT:
+#                pygame.draw.rect(screen, (255,255,255), rect) #delete old
+#                pygame.display.update(rect)
+#               rect.move_ip((-5,0))
+#                pygame.draw.rect(screen, (255,0,0), rect) #drat new
+#                pygame.display.update(rect)
         menu.react(event) #the menu automatically integrate your elements
 pygame.quit()

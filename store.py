@@ -43,7 +43,15 @@ class store:
                     return
         self.inventory.append([product, amount, userPrice])
 
+# checks that the given store has the requested amount of product
+# reduces store inventory for product by amount and increases money by amount x prod. price
+    def sellProduct(self, productIndex, amount, money):
+        if amount == 0:
+            return
+        self.inventory[productIndex][1] -= amount
+        money.setMoney(money.getMoney() + amount*self.inventory[productIndex][2])
+        if self.inventory[productIndex][1] == 0:
+            self.inventory.remove(self.inventory[productIndex])
 
 
-# need init function, init store init inventory array
 
