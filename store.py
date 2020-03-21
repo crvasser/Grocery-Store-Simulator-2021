@@ -45,17 +45,13 @@ class store:
 
 # checks that the given store has the requested amount of product
 # reduces store inventory for product by amount and increases money by amount x prod. price
-    def sellProduct(self, product, amount, money):
-        for i in self.inventory:
-            if product in i[0]:
-                if amount <= i[1]:
-                    i[1] = i[1] - amount
-                    money.setMoney(money.getMoney + (i[2]*amount))
-                    if i[1] == 0:
-                        self.inventory.remove(i)
-                else:
-                    print(str(amount) + " " + str(product) + " not in stock\n")
-                    return -1
+    def sellProduct(self, productIndex, amount, money):
+        if amount == 0:
+            return
+        self.inventory[productIndex][1] -= amount
+        money.setMoney(money.getMoney() + amount*self.inventory[productIndex][2])
+        if self.inventory[productIndex][1] == 0:
+            self.inventory.remove(self.inventory[productIndex])
 
 
 
