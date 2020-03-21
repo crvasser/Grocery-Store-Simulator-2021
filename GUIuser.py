@@ -165,7 +165,7 @@ while playing_game:
         money.setMoney(money.getMoney() - 10)
         curTime = pygame.time.get_ticks()
     if curTime1 + 1000 < pygame.time.get_ticks():
-        curTime1 = pygame
+        curTime1 = pygame.time.get_ticks()
         #customer.buyProduct(customer, store, money)
     screen.fill(white, (0, 0, screen.get_width()//8, screen.get_height()//16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0,0,0))
