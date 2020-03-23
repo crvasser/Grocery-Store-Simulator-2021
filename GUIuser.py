@@ -2,7 +2,7 @@ import pygame, thorpy
 from supplier import supplier
 from store import store
 from money import money
-from events import customer
+from events import events
 
 layout = pygame.image.load("./pictures/Layout.PNG")
 def finishPurchase():
