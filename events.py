@@ -8,7 +8,7 @@ class events:
     # increase money by amount x product price
     def customerBuyProduct(self, store, money):
         seed(1)
-        product = randint(1, len(store.inventory))
+        product = randint(0, len(store.inventory))
         amount = randint(0, min(store.inventory[product][1], 5))
         store.sellProduct(product, amount, money)
 
