@@ -151,7 +151,7 @@ rect = pygame.Rect((0, 0, 50, 50))
 rect.center = screen.get_rect().center
 clock = pygame.time.Clock()
 score = 0
-#customer = customer()
+customer = events()
 pygame.display.flip()
 white = (255,255,255)
 #declaration of some ThorPy elements ...
@@ -170,7 +170,8 @@ while playing_game:
         curTime = pygame.time.get_ticks()
     if curTime1 + 1000 < pygame.time.get_ticks():
         curTime1 = pygame.time.get_ticks()
-        #customer.buyProduct(customer, store, money)
+        if len(store.inventory) != 0:
+            customer.customerBuyProduct(store, money)
     screen.fill(white, (0, 0, screen.get_width()//8, screen.get_height()//16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0,0,0))
     screen.blit(scoretext, (5, 10))
