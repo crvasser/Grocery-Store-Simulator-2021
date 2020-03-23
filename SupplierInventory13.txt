@@ -1,0 +1,40 @@
+Apples 270 6.57
+Bananas 338 6.48
+Oranges 741 9.3
+Bread 400 3.83
+Eggs 479 0.17
+Milk 713 9.92
+Cereal 651 7.46
+Cheese 331 5.03
+Chicken 340 2.74
+Lettuce 627 10.82
+Tomatoes 991 9.32
+Potatoes 306 8.6
+Onions 941 2.2
+Grapes 145 10.88
+Watermelon 863 4.18
+Peppers 720 6.17
+Steak 555 8.15
+Ham 258 8.24
+Rice 252 7.9
+Ice Cream 366 8.65
+Lemon 857 2.81
+Salt 255 8.34
+Pepper 265 8.56
+Butter 340 10.27
+Fish 780 7.45
+Carrots 542 0.89
+Chips 477 8.15
+Nuts 150 10.15
+Pickles 408 3.76
+Bottled Water 328 0.69
+Ice 501 2.59
+Turkey 429 7.63
+Mayonnaise 137 1.23
+Ketchup 231 1.2
+Mustard 789 10.87
+Strawberries 799 8.28
+Blueberries 596 2.32
+Bitconnect 238 5.85
+Beer 121 8.83
+Male Order Bride 162 7.48
