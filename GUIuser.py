@@ -2,7 +2,9 @@ import pygame, thorpy
 from supplier import supplier
 from store import store
 from money import money
-from customer import customer
+from events import customer
+
+layout = pygame.image.load("./pictures/Layout.PNG")
 def finishPurchase():
     global amount
     global product
@@ -64,6 +66,7 @@ def hideMenu():
     central_box.set_topleft((100, 100))
     central_box.blit()
     central_box.update()
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 
 
 def makeBox():
@@ -120,6 +123,7 @@ def makeBox():
     central_box.set_topleft((100, 100))
     central_box.blit()
     central_box.update()
+    screen.blit(layout, (screen.get_width()/3, screen.get_height()/3))
 
 
 
@@ -154,7 +158,7 @@ white = (255,255,255)
 money = money(2000)
 makeBox()
 #we regroup all elements on a menu, even if we do not launch the menu
-
+screen.blit(layout, (screen.get_width()/3, screen.get_height()/3))
 curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 playing_game = True

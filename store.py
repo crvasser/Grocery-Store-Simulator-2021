@@ -53,5 +53,13 @@ class store:
         if self.inventory[productIndex][1] == 0:
             self.inventory.remove(self.inventory[productIndex])
 
+# Removes a specified product from the store inventory without adding money
+# Used by the shoplifter event
+    def removeProduct(self, productIndex, amount):
+        if amount == 0:
+            return
+        self.inventory[productIndex][1] -= amount
+        if self.inventory[productIndex][1] == 0:
+            self.inventory.remove(self.inventory[productIndex])
 
 
