@@ -17,7 +17,7 @@ Peppers 720 6.17
 Steak 555 8.15
 Ham 258 8.24
 Rice 252 7.9
-Ice Cream 366 8.65
+Ice-Cream 366 8.65
 Lemon 857 2.81
 Salt 255 8.34
 Pepper 265 8.56
@@ -27,7 +27,7 @@ Carrots 542 0.89
 Chips 477 8.15
 Nuts 150 10.15
 Pickles 408 3.76
-Bottled Water 328 0.69
+Bottled-Water 328 0.69
 Ice 501 2.59
 Turkey 429 7.63
 Mayonnaise 137 1.23
@@ -37,4 +37,4 @@ Strawberries 799 8.28
 Blueberries 596 2.32
 Bitconnect 238 5.85
 Beer 121 8.83
-Male Order Bride 162 7.48
+Male-Order-Bride 162 7.48

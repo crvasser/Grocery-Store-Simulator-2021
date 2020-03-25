@@ -10,15 +10,15 @@ class supplier:
     inventory2 = [[]]
     fileNames = ["SupplierInventory1", "SupplierInventory2", "SupplierInventory3", "SupplierInventory4",
                  "SupplierInventory5", "SupplierInventory6", "SupplierInventory7", "SupplierInventory8",
-                 "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12"]
+                 "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12"
+                 "SupplierInventory13"]
 
     # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
         self.stock = supplier.fileRead(self)
 
     def fileRead(self):
-        # random.randint(0, len(supplier.fileNames) - 1) replaces 0 but need to rewrite tests before it work
-        with open("./Supplier/" + supplier.fileNames[0]) as file:
+        with open("./Supplier/" + supplier.fileNames[random.randint(0, len(supplier.fileNames) - 1)] + ".txt") as file:
             inventory2 = [line.split() for line in file]
         for i in inventory2:
             i[1] = int(i[1])
