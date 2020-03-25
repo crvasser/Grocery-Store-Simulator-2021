@@ -10,7 +10,7 @@ class supplier:
     inventory2 = [[]]
     fileNames = ["SupplierInventory1", "SupplierInventory2", "SupplierInventory3", "SupplierInventory4",
                  "SupplierInventory5", "SupplierInventory6", "SupplierInventory7", "SupplierInventory8",
-                 "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12"
+                 "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12",
                  "SupplierInventory13"]
 
     # set the self stock to be the array, eventually it will take in a file
