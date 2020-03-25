@@ -8,7 +8,7 @@ class events:
     def customerBuyProduct(self, store, money):
         seed(1)
         product = randint(0, len(store.inventory))
-        amount = randint(0, min(store.inventory[product][1], 5))
+        amount = randint(0, 5)
         store.sellProduct(product, amount, money)
 
     # Reduces the total amount of money by a random amount between (1, 300) dollars to simulate a robbery

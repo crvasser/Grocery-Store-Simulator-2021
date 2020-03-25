@@ -58,6 +58,8 @@ class store:
     def removeProduct(self, productIndex, amount):
         if amount == 0:
             return
+        if amount > self.inventory[productIndex][1]:
+            amount = self.inventory[productIndex][1]
         self.inventory[productIndex][1] -= amount
         if self.inventory[productIndex][1] == 0:
             self.inventory.remove(self.inventory[productIndex])
