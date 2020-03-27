@@ -48,6 +48,8 @@ class store:
     def sellProduct(self, productIndex, amount, money):
         if amount == 0:
             return
+        if amount > self.inventory[productIndex][1]:
+            amount = self.inventory[productIndex][1]
         self.inventory[productIndex][1] -= amount
         money.setMoney(money.getMoney() + amount*self.inventory[productIndex][2])
         if self.inventory[productIndex][1] == 0:
