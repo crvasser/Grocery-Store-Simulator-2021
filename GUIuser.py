@@ -156,6 +156,7 @@ madePurchase = 1
 button3 = 0
 pygame.init()
 myfont = pygame.font.SysFont("monospace", 16)
+eventFont = pygame.font.SysFont("monospace", 12)
 togglable_pool = 0
 slider = 0
 slider1 = 0
@@ -188,10 +189,17 @@ makeBox()
 screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
+curTime2 = pygame.time.get_ticks()
 playing_game = True
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
+    # After 60000 ticks have a random event happen that affects the market
+    if curTime2 + 60000 < pygame.time.get_ticks():
+        curTime2 = pygame.time.get_ticks()
+        text = customer.supplierRandomPriceChange(supplier)
+        eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
+        screen.blit(eventText, (5, 60))
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 500 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - 10)
@@ -202,11 +210,6 @@ while playing_game:
         if len(store.inventory) != 0:
             customer.customerBuyProduct(store, money)
             makeBox()
-    # After 60000 ticks have a random event happen that affects the market
-    if curTime1 + 1000 < pygame.time.get_ticks():
-        text = customer.supplierRandomPriceChange(supplier)
-        eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
-        screen.blit(eventText, (50, 10))
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
