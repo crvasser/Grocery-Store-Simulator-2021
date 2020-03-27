@@ -136,8 +136,7 @@ def makeBox():
         buttons = [thorpy.Togglable.make("No Supplier stock")]
     togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
     radio_and_toggable = buttons
-    elements = [title_element0] + [button0] + [title_element] + radio_and_toggable + [slider, slider1, button1, button3,
-                                                                                      button4]
+    elements = [title_element0] + [button0] + [title_element] + radio_and_toggable + [slider, slider1, button1, button3, button4]
     central_box = thorpy.Box.make(elements=elements)
     central_box.fit_children(margins=(30, 30))
     central_box.center()
@@ -204,10 +203,8 @@ while playing_game:
             customer.customerBuyProduct(store, money)
             makeBox()
     # After 60000 ticks have a random event happen that affects the market
-    if curTime1 + 1000 < pygame.time.get_ticks():
-        text = customer.supplierRandomPriceChange(supplier)
-        print(text)
-        eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
+    if curTime1 + 60000 < pygame.time.get_ticks():
+        eventText = myfont.render(customer.supplierRandomPriceChange(supplier), 1, (0, 0, 0))
         screen.blit(eventText, (50, 10))
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
