@@ -15,7 +15,7 @@ class events:
     # if product is available in specified amount, remove product from inventory
     # increase money by amount x product price
     def customerBuyProduct(self, store, money):
-        product = randint(0, len(store.inventory))
+        product = randint(0, len(store.inventory)-1)
         amount = randint(0, 5)
         store.sellProduct(product, amount, money)
 
@@ -26,7 +26,7 @@ class events:
 
     # Removes a random amount of a random product from the store inventory to simulate a shoplifting event
     def shoplifterStealProduct(self, store):
-        product = randint(0, len(store.inventory))
+        product = randint(0, len(store.inventory)-1)
         amount = randint(0, min(store.inventory[product][1], 5))
         store.removeProduct(product, amount)
 
