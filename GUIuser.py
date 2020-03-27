@@ -203,6 +203,10 @@ while playing_game:
         if len(store.inventory) != 0:
             customer.customerBuyProduct(store, money)
             makeBox()
+    # After 60000 ticks have a random event happen that affects the market
+    if curTime1 + 60000 < pygame.time.get_ticks():
+        eventText = myfont.render(customer.supplierRandomPriceChange(supplier), False, (0, 0, 0))
+        screen.blit(eventText, (50, 10))
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
