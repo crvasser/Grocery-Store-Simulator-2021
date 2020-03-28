@@ -5,6 +5,18 @@ from money import money
 from events import events
 
 layout = pygame.image.load("./pictures/Layout.PNG")
+layout1 = pygame.image.load("./pictures/apple.png")
+
+
+class Item(pygame.sprite.Sprite):
+    def __init__(self, width, height, itemName, fileName):
+        super().__init__()
+        self.name = itemName
+        self.image = pygame.Surface([width, height])
+        self.image.fill(white)
+        self.image.set_colorkey(white)
+        self.image = pygame.image.load("./pictures/apple.png").convert_alpha()
+        self.rect = self.image.get_rect()
 
 
 # method called when purchase is made
@@ -27,23 +39,26 @@ def finishPurchase():
     flagInvalidAmount = 0
     amount = slider.get_value()
     sellPrice = slider1.get_value()
-    product = ""
-    if togglable_pool.get_selected():
-        product = togglable_pool.get_selected().get_text()
+    if len(product) != 0:
         if amount.isdigit():
             if sellPrice.isdigit():
                 if store.add(product, int(amount), supplier, int(sellPrice), money):
                     print("amount", amount)
                     print("sellPrice", sellPrice)
                     print("product", product)
+                    product = ""
                     successfulPurchase()
+
                 else:
+                    product = ""
                     flagUnavail = 1  # supplier doesn't have enough of that item
                     makeBox()
             else:
+                product = ""
                 flagInvalidPrice = 1  # invalid price entered
                 makeBox()
         else:
+            product = ""
             flagInvalidAmount = 1  # invalid amount entered
             makeBox()
 
@@ -79,12 +94,69 @@ def hideMenu():
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 
 
+# Method to draw out supplier invetory
+# Creates clickable sprites
+# Clicked sprites are assigned to the product value used when purchasing
+def drawSupplierInventory():
+    global supplierUpdate
+    global supplierCollisionList
+    supplierCollisionList = pygame.sprite.Group()
+    supplierText = myfont.render("Supplier Inventory", 1, (0, 0, 0))
+    screen.blit(supplierText, (1500, 125))
+    start = 1300
+    beginY = 160
+    for i in range(len(supplier.inventory)):
+        tempItem = Item(500, 500, supplier.inventory[i], "FileNameHere")
+        tempItem.rect.x = start
+        tempItem.rect.y = beginY
+        supplierCollisionList.add(tempItem)
+        supplierText = myfont.render(str(supplier.inventory[i][2]) + "$", 1, (0, 0, 0))
+        screen.blit(supplierText, (start, beginY - 15))
+        supplierText = myfont.render("x" + str(supplier.inventory[i][1]), 1, (0, 0, 0))
+        screen.blit(supplierText, (start + 15, beginY + 65))
+        start = start + 70
+        if start == 1300 + 70 * 8:
+            beginY = beginY + 100
+            start = 1300
+    supplierCollisionList.draw(screen)
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    supplierUpdate = 0
+
+# Method to draw out the store inventory
+# Makes selected sprites (unused currently)
+def drawStoreInventory():
+    global storeUpdate
+    global storeCollisionList
+    storeCollisionList = pygame.sprite.Group()
+    storeText = myfont.render("store Inventory", 1, (0, 0, 0))
+    screen.blit(storeText, (150, 125))
+    start = 5
+    beginY = 160
+    for i in range(len(store.inventory)):
+        tempItem = Item(500, 500, store.inventory[i], "FileNameHere")
+        tempItem.rect.x = start
+        tempItem.rect.y = beginY
+        storeCollisionList.add(tempItem)
+        storeText = myfont.render(str(store.inventory[i][2]) + "$", 1, (0, 0, 0))
+        screen.blit(storeText, (start, beginY - 15))
+        storeText = myfont.render("x" + str(store.inventory[i][1]), 1, (0, 0, 0))
+        screen.blit(storeText, (start + 15, beginY + 65))
+        start = start + 70
+        if start == 5 + 70 * 8:
+            beginY = beginY + 100
+            start = 5
+    storeCollisionList.draw(screen)
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    storeUpdate = 0
+
+
 # Main GUI setup
 # Makes box with title of game, buttons to select items from store inventory,
 # Text boxes to add amount and cost of item, and a purchase button
 # Error messages are displayed in red text below title when they occur
 def makeBox():
     global central_box
+    global product
     global button3
     global menu
     global slider
@@ -96,19 +168,15 @@ def makeBox():
     global flagInvalidPrice
     global flagInvalidAmount
     global madePurchase
+    global storeUpdate
+    global supplierUpdate
     screen.fill(white)
     button0 = thorpy.make_button("Hide menu", func=hideMenu)
     button1 = thorpy.make_button("Purchase", func=finishPurchase)
-    # make store inventory and supplier inventory buttons if they are needed
-    if len(store.availStockAsText()) != 0:
-        button3 = thorpy.make_button(text="Store inventory\n" + store.availStockAsText())
-    else:
-        button3 = thorpy.make_button(text="Store inventory empty")
-    if len(supplier.availStockAsText()) != 0:
-        button4 = thorpy.make_button(text="Supplier inventory\n" + supplier.availStockAsText())
-    else:
-        button4 = thorpy.make_button(text="Supplier inventory empty")
-    title_element0 = thorpy.make_text("Grocery Store Sim 2021", 25, (255, 255, 0))
+    button2 = thorpy.make_text("Please Select an Item to Purchase", 15, (0, 0, 0))
+    if len(product) != 0:
+        button2 = thorpy.make_text(product + " Selected", 15, (0, 0, 0))
+    title_element0 = thorpy.make_text("Supplier Purchase Menu", 25, (255, 255, 0))
     title_element = thorpy.make_text("123", 0, (255, 255, 0))
     # updates error msg based on flag received when purchasing
     if flagUnavail == 1:
@@ -131,25 +199,22 @@ def makeBox():
     slider1 = thorpy.Inserter(name="sell price")
     if madePurchase == 0:
         slider1.set_value(oldSlider1)
-    buttons = [thorpy.Togglable.make(str(i)) for i in supplier.availStockAsList()]
-    if len(buttons) == 0:
-        buttons = [thorpy.Togglable.make("No Supplier stock")]
-    togglable_pool = thorpy.TogglablePool(buttons, first_value=buttons[0], always_value=True)
-    radio_and_toggable = buttons
-    elements = [title_element0] + [button0] + [title_element] + radio_and_toggable + [slider, slider1, button1, button3, button4]
+    elements = [title_element0] + [button0] + [title_element] + [button2, slider, slider1, button1,
+                                                                 ]
     central_box = thorpy.Box.make(elements=elements)
     central_box.fit_children(margins=(30, 30))
     central_box.center()
-    central_box.add_lift()
     central_box.set_main_color((220, 220, 220, 180))
     menu = thorpy.Menu(central_box)
     for element in menu.get_population():
         element.surface = screen
-    central_box.set_topleft((100, 100))
+    central_box.set_topleft((screen.get_width() / 3, 80))
     central_box.blit()
     central_box.update()
     madePurchase = 0
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    storeUpdate = 1
+    supplierUpdate = 1
 
 
 madePurchase = 1
@@ -170,7 +235,7 @@ supplier = supplier()
 store = store()
 pygame.init()
 pygame.key.set_repeat(300, 30)
-screen = pygame.display.set_mode((1000, 1000))
+screen = pygame.display.set_mode((1920, 1080))
 flagUnavail = 0
 flagInvalidPrice = 0
 flagInvalidAmount = 0
@@ -178,13 +243,18 @@ screen.fill((255, 255, 255))
 rect = pygame.Rect((0, 0, 50, 50))
 rect.center = screen.get_rect().center
 clock = pygame.time.Clock()
+red = (255, 0, 0)
 score = 0
 customer = events()
 pygame.display.flip()
 white = (255, 255, 255)
 # declaration of some ThorPy elements ...
 money = money(2000)
+supplierUpdate = 1
+storeUpdate = 1
 makeBox()
+supplierCollisionList = pygame.sprite.Group()
+storeCollisionList = list()
 # we regroup all elements on a menu, even if we do not launch the menu
 screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 curTime = pygame.time.get_ticks()
@@ -213,11 +283,23 @@ while playing_game:
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 16))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
+    if supplierUpdate == 1:
+        drawSupplierInventory()
+    if storeUpdate == 1:
+        drawStoreInventory()
     # When money hits 0, game over
     if money.getMoney() < 0:
         playing_game = False
+
     # Mostly unused event handler, keeping it as reference
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            clicked = [c for c in supplierCollisionList if c.rect.collidepoint(pos)]
+            if len(clicked) != 0:
+                print("clicked = ", clicked[0].name)
+                product = clicked[0].name[0]
+                makeBox()
         central_box.blit()
         central_box.update()
         if event.type == pygame.QUIT:
