@@ -15,7 +15,7 @@ class supplier:
 
     # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
-        self.stock = self.inventory
+        self.stock = self.fileRead()
 
     def fileRead(self):
         with open("./Supplier/" + supplier.fileNames[random.randint(0, len(supplier.fileNames) - 1)] + ".txt") as file:
