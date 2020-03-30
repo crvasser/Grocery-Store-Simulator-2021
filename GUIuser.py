@@ -15,7 +15,8 @@ class Item(pygame.sprite.Sprite):
         self.image = pygame.Surface([width, height])
         self.image.fill(white)
         self.image.set_colorkey(white)
-        self.image = pygame.image.load("./pictures/apple.png").convert_alpha()
+        actualFileName = "./pictures/TSP/" + fileName + ".png"
+        self.image = pygame.image.load(actualFileName).convert_alpha()
         self.rect = self.image.get_rect()
 
 
@@ -110,7 +111,7 @@ def drawSupplierInventory():
     start = 1300
     beginY = 160
     for i in range(len(supplier.stock)):
-        tempItem = Item(500, 500, supplier.stock[i], "FileNameHere")
+        tempItem = Item(500, 500, supplier.stock[i], supplier.stock[i][0])
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         supplierCollisionList.add(tempItem)
@@ -118,9 +119,9 @@ def drawSupplierInventory():
         screen.blit(supplierText, (start, beginY - 15))
         supplierText = myfont.render("x" + str(supplier.stock[i][1]), 1, (0, 0, 0))
         screen.blit(supplierText, (start + 15, beginY + 65))
-        start = start + 70
-        if start == 1300 + 70 * 8:
-            beginY = beginY + 100
+        start = start + 75
+        if start == 1300 + 75 * 8:
+            beginY = beginY + 130
             start = 1300
     supplierCollisionList.draw(screen)
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
@@ -138,7 +139,7 @@ def drawStoreInventory():
     start = 5
     beginY = 160
     for i in range(len(store.inventory)):
-        tempItem = Item(500, 500, store.inventory[i], "FileNameHere")
+        tempItem = Item(500, 500, store.inventory[i], store.inventory[i][0])
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         storeCollisionList.add(tempItem)
@@ -146,9 +147,9 @@ def drawStoreInventory():
         screen.blit(storeText, (start, beginY - 15))
         storeText = myfont.render("x" + str(store.inventory[i][1]), 1, (0, 0, 0))
         screen.blit(storeText, (start + 15, beginY + 65))
-        start = start + 70
-        if start == 5 + 70 * 8:
-            beginY = beginY + 100
+        start = start + 75
+        if start == 5 + 75 * 8:
+            beginY = beginY + 130
             start = 5
     storeCollisionList.draw(screen)
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
