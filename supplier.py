@@ -13,9 +13,9 @@ class supplier:
                  "SupplierInventory9", "SupplierInventory10", "SupplierInventory11", "SupplierInventory12",
                  "SupplierInventory13"]
 
-    # set the self.inventory to be the array, eventually it will take in a file
+    # set the self stock to be the array, eventually it will take in a file
     def __init__(self):
-        self.inventory = self.fileRead()
+        self.stock = supplier.fileRead(self)
 
     def fileRead(self):
         with open("./Supplier/" + supplier.fileNames[random.randint(0, len(supplier.fileNames) - 1)] + ".txt") as file:
@@ -38,7 +38,7 @@ class supplier:
 
     # checks if the item can be purchased in that amount
     def stockAvailable(self, item, amount):
-        for i in self.inventory:
+        for i in self.stock:
             if item in i[0]:
                 if i[1] >= amount:
                     return True
@@ -46,36 +46,36 @@ class supplier:
                     return False
 
     def stockAmountAvailable(self, item):
-        for i in self.inventory:
+        for i in self.stock:
             if item in i[0]:
                 return item[1]
 
     # removes from inventory and returns true.
     def removeFromInventory(self, item, amount):
-        for i in self.inventory:
+        for i in self.stock:
             if item in i[0]:
 
                 i[1] = i[1] - amount
                 if i[1] == 0:
-                    self.inventory.remove(i)
+                    self.stock.remove(i)
                 return True
         return False
 
     # returns the price of the item from seller
     def sellerItemPrice(self, item):
-        for i in self.inventory:
+        for i in self.stock:
             if item in i[0]:
                 return i[2]
         return False
 
     def availStockAsText(self):
         names = ""
-        for i in self.inventory:
+        for i in self.stock:
             names = names + str(i[1]) + " " + i[0] + " at " + str(i[2]) + " each " + "\n"
         return names
 
     def availStockAsList(self):
         names = list()
-        for i in self.inventory:
+        for i in self.stock:
             names.append(i[0])
         return names

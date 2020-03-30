@@ -105,14 +105,14 @@ def drawSupplierInventory():
     screen.blit(supplierText, (1500, 125))
     start = 1300
     beginY = 160
-    for i in range(len(supplier.inventory)):
-        tempItem = Item(500, 500, supplier.inventory[i], "FileNameHere")
+    for i in range(len(supplier.stock)):
+        tempItem = Item(500, 500, supplier.stock[i], "FileNameHere")
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         supplierCollisionList.add(tempItem)
-        supplierText = myfont.render(str(supplier.inventory[i][2]) + "$", 1, (0, 0, 0))
+        supplierText = myfont.render(str(supplier.stock[i][2]) + "$", 1, (0, 0, 0))
         screen.blit(supplierText, (start, beginY - 15))
-        supplierText = myfont.render("x" + str(supplier.inventory[i][1]), 1, (0, 0, 0))
+        supplierText = myfont.render("x" + str(supplier.stock[i][1]), 1, (0, 0, 0))
         screen.blit(supplierText, (start + 15, beginY + 65))
         start = start + 70
         if start == 1300 + 70 * 8:
