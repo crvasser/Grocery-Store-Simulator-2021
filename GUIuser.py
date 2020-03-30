@@ -6,7 +6,9 @@ from events import events
 
 layout = pygame.image.load("./pictures/Layout.PNG")
 layout1 = pygame.image.load("./pictures/apple.png")
-
+pygame.mixer.init()
+pygame.mixer.music.load("./Music/background.wav")
+pygame.mixer.music.play(loops=-1)
 
 class Item(pygame.sprite.Sprite):
     def __init__(self, width, height, itemName, fileName):
@@ -81,7 +83,7 @@ def hideMenu():
     global text
     global eventText
     screen.fill(white)
-    button = thorpy.make_button("show menu", func=makeBox)
+    button = thorpy.make_button("Show Menu", func=makeBox)
     central_box = thorpy.Box.make(elements=[button])
     central_box.fit_children(margins=(30, 30))
     central_box.center()
@@ -134,7 +136,7 @@ def drawStoreInventory():
     global storeUpdate
     global storeCollisionList
     storeCollisionList = pygame.sprite.Group()
-    storeText = myfont.render("store Inventory", 1, (0, 0, 0))
+    storeText = myfont.render("Store Inventory", 1, (0, 0, 0))
     screen.blit(storeText, (150, 125))
     start = 5
     beginY = 160
@@ -143,7 +145,7 @@ def drawStoreInventory():
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         storeCollisionList.add(tempItem)
-        storeText = myfont.render(str(store.inventory[i][2]) + "$", 1, (0, 0, 0))
+        storeText = myfont.render("$" + str(store.inventory[i][2]), 1, (0, 0, 0))
         screen.blit(storeText, (start, beginY - 15))
         storeText = myfont.render("x" + str(store.inventory[i][1]), 1, (0, 0, 0))
         screen.blit(storeText, (start + 15, beginY + 65))
@@ -201,12 +203,12 @@ def makeBox():
     # Text inserter setup, madePurchase if statements ensures text won't be blanked out on event call
     if madePurchase == 0:
         oldSlider = slider.get_value()
-    slider = thorpy.Inserter(name="amount")
+    slider = thorpy.Inserter(name="Amount")
     if madePurchase == 0:
         slider.set_value(oldSlider)
     if madePurchase == 0:
         oldSlider1 = slider1.get_value()
-    slider1 = thorpy.Inserter(name="sell price")
+    slider1 = thorpy.Inserter(name="Sell Price")
     if madePurchase == 0:
         slider1.set_value(oldSlider1)
     elements = [title_element0] + [button0] + [title_element] + [button2, slider, slider1, button1,
@@ -284,6 +286,8 @@ while playing_game:
         text = customer.supplierRandomPriceChange(supplier)
         eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
         screen.fill(white)
+        storeUpdate = 1
+        supplierUpdate = 1
         screen.blit(eventText, (5, 60))
 
     # After 500 ticks take away 10 dollars in taxes
@@ -319,6 +323,8 @@ while playing_game:
         central_box.blit()
         central_box.update()
         if event.type == pygame.QUIT:
+            pygame.mixer.music.stop()
+            pygame.mixer.quit()
             playing_game = False
             break
         #        elif event.type == pygame.KEYDOWN:
