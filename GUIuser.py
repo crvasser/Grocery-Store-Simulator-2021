@@ -77,6 +77,8 @@ def hideMenu():
     global white
     global central_box
     global menu
+    global text
+    global eventText
     screen.fill(white)
     button = thorpy.make_button("show menu", func=makeBox)
     central_box = thorpy.Box.make(elements=[button])
@@ -86,6 +88,8 @@ def hideMenu():
     central_box.set_main_color((220, 220, 220, 180))
     menu = thorpy.Menu(central_box)
     screen.fill(white)
+    if len(text) != 0:
+        screen.blit(eventText, (5, 60))
     for element in menu.get_population():
         element.surface = screen
     central_box.set_topleft((100, 100))
@@ -121,6 +125,7 @@ def drawSupplierInventory():
     supplierCollisionList.draw(screen)
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
     supplierUpdate = 0
+
 
 # Method to draw out the store inventory
 # Makes selected sprites (unused currently)
@@ -170,7 +175,11 @@ def makeBox():
     global madePurchase
     global storeUpdate
     global supplierUpdate
+    global text
+    global eventText
     screen.fill(white)
+    if len(text) != 0:
+        screen.blit(eventText, (5, 60))
     button0 = thorpy.make_button("Hide menu", func=hideMenu)
     button1 = thorpy.make_button("Purchase", func=finishPurchase)
     button2 = thorpy.make_text("Please Select an Item to Purchase", 15, (0, 0, 0))
@@ -213,10 +222,12 @@ def makeBox():
     central_box.update()
     madePurchase = 0
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    if len(text) != 0:
+        screen.blit(eventText, (5, 60))
     storeUpdate = 1
     supplierUpdate = 1
 
-
+text = ""
 madePurchase = 1
 button3 = 0
 pygame.init()
@@ -260,6 +271,8 @@ screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
+text = ""
+eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
 playing_game = True
 while playing_game:
     clock.tick(45)
@@ -270,6 +283,7 @@ while playing_game:
         text = customer.supplierRandomPriceChange(supplier)
         eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
         screen.blit(eventText, (5, 60))
+
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 500 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - 10)
@@ -280,7 +294,7 @@ while playing_game:
         if len(store.inventory) != 0:
             customer.customerBuyProduct(store, money)
             makeBox()
-    screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 16))
+    screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 20))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
     if supplierUpdate == 1:
