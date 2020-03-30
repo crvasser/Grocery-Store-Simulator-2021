@@ -114,7 +114,7 @@ def drawSupplierInventory():
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         supplierCollisionList.add(tempItem)
-        supplierText = myfont.render(str(supplier.stock[i][2]) + "$", 1, (0, 0, 0))
+        supplierText = myfont.render("$" + str(supplier.stock[i][2]), 1, (0, 0, 0))
         screen.blit(supplierText, (start, beginY - 15))
         supplierText = myfont.render("x" + str(supplier.stock[i][1]), 1, (0, 0, 0))
         screen.blit(supplierText, (start + 15, beginY + 65))
