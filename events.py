@@ -1,6 +1,8 @@
 from random import seed
 from random import randint
 import math
+
+
 class events:
     worldEvents = ["There was an earthquake in Utah, I wonder how this will change prices!",
                    "Volcanic eruption in the Pacific Rim, prices are sure to shift!",
