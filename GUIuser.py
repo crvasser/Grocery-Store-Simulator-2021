@@ -284,6 +284,8 @@ while playing_game:
         text = customer.supplierRandomPriceChange(supplier)
         eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
         screen.fill(white)
+        storeUpdate = 1
+        supplierUpdate = 1
         screen.blit(eventText, (5, 60))
 
     # After 500 ticks take away 10 dollars in taxes
