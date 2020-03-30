@@ -12,7 +12,7 @@ class store:
 # then call to checkInventory to handle adding to store's stock
     def add(self, product, amount, supplier, userPrice, money):
         if money.getMoney() < supplier.sellerItemPrice(product) * amount:
-            print("Cannot afford " + amount + " " + product + "\n")
+            print("Cannot afford " + str(amount) + " " + str(product) + "\n")
             return False
         if supplier.stockAvailable(product, amount):
             self.checkInventory(product, amount, userPrice)
