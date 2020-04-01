@@ -298,7 +298,7 @@ while playing_game:
     if curTime1 + 10000 < pygame.time.get_ticks():
         curTime1 = pygame.time.get_ticks()
         if len(store.inventory) != 0:
-            customer.customerBuyProduct(store, money)
+            customer.customerBuyProduct(store, money, supplier)
             makeBox()
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 20))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))

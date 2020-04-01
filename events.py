@@ -16,9 +16,13 @@ class events:
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
     # increase money by amount x product price
-    def customerBuyProduct(self, store, money):
+    def customerBuyProduct(self, store, money, supplier):
         product = randint(0, len(store.inventory)-1)
         amount = randint(0, 5)
+        # prevent customer from paying for products placed at an unreasonably high price
+        if store.inventory[product][2] > 4 * supplier.sellerItemPrice(store.inventory[product][0]):
+            print("PRODUCT COSTS TOO MUCH, CUSTOMER REFUSED TO BUY")
+            return 0
         store.sellProduct(product, amount, money)
 
     # Reduces the total amount of money by a random amount between (1, 300) dollars to simulate a robbery
