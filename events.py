@@ -12,7 +12,11 @@ class events:
                    "Local peewee baseball team hits 5 home runs, wins free pizza for the whole town.",
                    "Gigantic tentacle monster found deep in the ocean, experts are unclear as to how this will affect the world economy.",
                    "Marble racing to take over the world of sports, this will surely shock the market!",
-                   "Gorilla escapes zoo enclosure and eats all the bananas in New York, climbs Empire State Building."]
+                   "Gorilla escapes zoo enclosure and eats all the bananas in New York, climbs Empire State Building.",
+                   "Amateur robotics team accidentally creates AI capable of self thought.",
+                   "Novel Superbug is 'just a really nice guy' says doctors.",
+                   "World's largest Chia Pet sold for $540,000 at auction.",
+                   "Scientists discover new way to create synthetic muscles, babies to bench 150 lbs by the end of this summer."]
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
     # increase money by amount x product price
@@ -39,8 +43,8 @@ class events:
     # Randomizes a price change for a product. Will be called by world events call
     def supplierRandomPriceChange(self, supplier):
         event = randint(0, len(self.worldEvents)-1)
-        product = randint(0, len(supplier.inventory)-1)
-        amount = math.floor(supplier.inventory[product][2])
+        product = randint(0, len(supplier.stock)-1)
+        amount = math.floor(supplier.stock[product][2])
         change = randint(amount*(-1), amount)
-        supplier.inventory[product][2] = supplier.inventory[product][2] + change
+        supplier.stock[product][2] = supplier.stock[product][2] + change
         return self.worldEvents[event]
