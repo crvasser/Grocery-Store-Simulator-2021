@@ -133,18 +133,28 @@ def drawSupplierInventory():
 
 def drawStartShopping(shopper):
     global customerCollisionList1
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+
     shopper.rect.x = shopper.rect.x + 1
     customerCollisionList1.add(shopper)
     customerCollisionList1.draw(screen)
-    print("making a new shopper")
+    print("shopper new shopper")
 
 
 def drawFailedShopping(shopper):
+    global customerCollisionList2
+
+    shopper.rect.x = shopper.rect.x - 1
+    customerCollisionList2.add(shopper)
+    customerCollisionList2.draw(screen)
     print("shopper didnt buy anything")
 
 
 def drawSuccessfulShopping(shopper):
+    global customerCollisionList2
+
+    shopper.rect.x = shopper.rect.x - 1
+    customerCollisionList2.add(shopper)
+    customerCollisionList2.draw(screen)
     print("shopper bought something")
 
 
@@ -306,17 +316,18 @@ playing_game = True
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
     if startShopping == 1:
         newShopper = Item(500, 500, "customer", "Customer1")  # this will be customer sprite
         newShopper.rect.x = screen.get_width() / 3
         newShopper.rect.y = screen.get_height() / 3 + 270
         startShopping = 0
-    if shopSuccess == 0 and shopFail == 0:
-        drawStartShopping(newShopper)
+    drawStartShopping(newShopper)
     if shopSuccess == 1 and shopFail == 0:
         drawSuccessfulShopping(curShopper)
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
+
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
@@ -333,18 +344,25 @@ while playing_game:
         curTime = pygame.time.get_ticks()
     # After 10000 ticks have a customer come in and buy some random items
     if curTime1 + 10000 < pygame.time.get_ticks():
+        shopFail = 0
+        shopSuccess = 0
         startShopping = 1
         curShopper = newShopper
         curTime1 = pygame.time.get_ticks()
         if len(store.inventory) != 0:
             test = customer.customerBuyProduct(store, money, supplier)
+            print("test = ", test)
             if test == 0:
+
                 shopFail = 1
                 shopSuccess = 0
             else:
                 shopSuccess = 1
                 shopFail = 0
             makeBox()
+        else:
+            shopFail = 1
+            shopSuccess = 0
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 20))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
