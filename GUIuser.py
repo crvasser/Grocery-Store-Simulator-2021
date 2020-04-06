@@ -355,7 +355,7 @@ while playing_game:
         curShopper = newShopper
         curTime1 = pygame.time.get_ticks()
         if len(store.inventory) != 0:
-            test = customer.customerBuyProduct(store, money, supplier)
+            test = customer.customerBuyProduct(store, money)
             print("test = ", test)
             if test == 0:
 

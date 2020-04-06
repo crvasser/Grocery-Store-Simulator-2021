@@ -21,10 +21,11 @@ class events:
                    "High tech burger flipping technology developed by Squarepants Inc.",
                    "Mayor Antone Deponte announces free sodie pop to child who brings in the most Box Tops.",
                    "Never before seen movie found in storage, is expected to beat out all superhero movies at box office."]
+
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
     # increase money by amount x product price
-    def customerBuyProduct(self, store, money, supplier):
+    def customerBuyProduct(self, store, money):
         product = randint(0, len(store.inventory)-1)
         amount = randint(0, 5)
         # prevent customer from paying for products placed at an unreasonably high price
@@ -32,6 +33,9 @@ class events:
             print("PRODUCT COSTS TOO MUCH, CUSTOMER REFUSED TO BUY")
             return 0
         store.sellProduct(product, amount, money)
+
+        # return product that was purchased
+        return store.inventory[product][0]
 
     # Reduces the total amount of money by a random amount between (1, 300) dollars to simulate a robbery
     def robberStealMoney(self, money):
