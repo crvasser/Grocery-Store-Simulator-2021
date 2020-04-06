@@ -15,7 +15,7 @@ class store:
             print("Cannot afford " + str(amount) + " " + str(product) + "\n")
             return False
         if supplier.stockAvailable(product, amount):
-            self.checkInventory(product, amount, userPrice)
+            self.checkInventory(product, amount, userPrice, supplier.sellerItemPrice(product))
             money.setMoney(money.getMoney()-(supplier.sellerItemPrice(product)*amount))
             supplier.purchaseStock(product, amount)
             return True
@@ -31,17 +31,19 @@ class store:
 
 # checks if there is an entry in the store's stock for the given product then either creates a new entry
 # or updates the existing entry's amount value
-    def checkInventory(self, product, amount, userPrice):
+    def checkInventory(self, product, amount, userPrice, sellerPrice):
         for i in self.inventory:
             if product in i[0]:
                 if userPrice == i[2]:
                     i[1] = i[1] + amount
+                    i[3] = sellerPrice
                     return
                 else:
                     i[1] = i[1] + amount
                     i[2] = userPrice
+                    i[3] = sellerPrice
                     return
-        self.inventory.append([product, amount, userPrice])
+        self.inventory.append([product, amount, userPrice, sellerPrice])
 
 # checks that the given store has the requested amount of product
 # reduces store inventory for product by amount and increases money by amount x prod. price

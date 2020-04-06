@@ -28,7 +28,7 @@ class events:
         product = randint(0, len(store.inventory)-1)
         amount = randint(0, 5)
         # prevent customer from paying for products placed at an unreasonably high price
-        if store.inventory[product][2] > 4 * supplier.sellerItemPrice(store.inventory[product][0]):
+        if store.inventory[product][2] > 5 * store.inventory[product][3]:
             print("PRODUCT COSTS TOO MUCH, CUSTOMER REFUSED TO BUY")
             return 0
         store.sellProduct(product, amount, money)
