@@ -139,6 +139,7 @@ def drawStartShopping(shopper):
     shopper.rect.x = shopper.rect.x + 1
     customerCollisionList1.add(shopper)
     customerCollisionList1.draw(screen)
+    customerCollisionList1.remove(shopper)
     print("shopper new shopper")
 
 
@@ -148,15 +149,20 @@ def drawFailedShopping(shopper):
     shopper.rect.x = shopper.rect.x - 1
     customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
+    customerCollisionList2.remove(shopper)
     print("shopper didnt buy anything")
 
 
-def drawSuccessfulShopping(shopper):
+def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
-
+    purchase.rect.x = shopper.rect.x - 60
+    purchase.rect.y = shopper.rect.y
     shopper.rect.x = shopper.rect.x - 1
     customerCollisionList2.add(shopper)
+    customerCollisionList2.add(purchase)
     customerCollisionList2.draw(screen)
+    customerCollisionList2.remove(purchase)
+    customerCollisionList2.remove(shopper)
     print("shopper bought something")
 
 
@@ -313,6 +319,7 @@ curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
 shoplifterTime = pygame.time.get_ticks()
 robberTime = pygame.time.get_ticks()
+startClearing = 0
 text = ""
 amountMovex = 0
 eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
@@ -328,7 +335,7 @@ while playing_game:
         startShopping = 0
     drawStartShopping(newShopper)
     if shopSuccess == 1 and shopFail == 0:
-        drawSuccessfulShopping(curShopper)
+        drawSuccessfulShopping(curShopper, purchase)
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
 
@@ -358,10 +365,10 @@ while playing_game:
             test = customer.customerBuyProduct(store, money)
             print("test = ", test)
             if test == 0:
-
                 shopFail = 1
                 shopSuccess = 0
             else:
+                purchase = Item(500, 500, "customer", test)
                 shopSuccess = 1
                 shopFail = 0
             makeBox()
