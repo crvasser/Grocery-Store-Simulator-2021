@@ -10,6 +10,7 @@ pygame.mixer.init()
 pygame.mixer.music.load("./Music/background.wav")
 pygame.mixer.music.play(loops=-1)
 
+
 class Item(pygame.sprite.Sprite):
     def __init__(self, width, height, itemName, fileName):
         super().__init__()
@@ -130,6 +131,23 @@ def drawSupplierInventory():
     supplierUpdate = 0
 
 
+def drawStartShopping(shopper):
+    global customerCollisionList1
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    shopper.rect.x = shopper.rect.x + 1
+    customerCollisionList1.add(shopper)
+    customerCollisionList1.draw(screen)
+    print("making a new shopper")
+
+
+def drawFailedShopping(shopper):
+    print("shopper didnt buy anything")
+
+
+def drawSuccessfulShopping(shopper):
+    print("shopper bought something")
+
+
 # Method to draw out the store inventory
 # Makes selected sprites (unused currently)
 def drawStoreInventory():
@@ -230,6 +248,8 @@ def makeBox():
     storeUpdate = 1
     supplierUpdate = 1
 
+
+shopping = 0
 text = ""
 madePurchase = 1
 button3 = 0
@@ -259,6 +279,7 @@ rect.center = screen.get_rect().center
 clock = pygame.time.Clock()
 red = (255, 0, 0)
 score = 0
+startShopping = 1
 customer = events()
 pygame.display.flip()
 white = (255, 255, 255)
@@ -267,7 +288,11 @@ money = money(2000)
 supplierUpdate = 1
 storeUpdate = 1
 makeBox()
+shopSuccess = 0
+shopFail = 0
 supplierCollisionList = pygame.sprite.Group()
+customerCollisionList1 = pygame.sprite.Group()
+customerCollisionList2 = pygame.sprite.Group()
 storeCollisionList = list()
 # we regroup all elements on a menu, even if we do not launch the menu
 screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
@@ -275,11 +300,23 @@ curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
 text = ""
+amountMovex = 0
 eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
 playing_game = True
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
+    if startShopping == 1:
+        newShopper = Item(500, 500, "customer", "Customer1")  # this will be customer sprite
+        newShopper.rect.x = screen.get_width() / 3
+        newShopper.rect.y = screen.get_height() / 3 + 270
+        startShopping = 0
+    if shopSuccess == 0 and shopFail == 0:
+        drawStartShopping(newShopper)
+    if shopSuccess == 1 and shopFail == 0:
+        drawSuccessfulShopping(curShopper)
+    if shopFail == 1 and shopSuccess == 0:
+        drawFailedShopping(curShopper)
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
@@ -296,9 +333,17 @@ while playing_game:
         curTime = pygame.time.get_ticks()
     # After 10000 ticks have a customer come in and buy some random items
     if curTime1 + 10000 < pygame.time.get_ticks():
+        startShopping = 1
+        curShopper = newShopper
         curTime1 = pygame.time.get_ticks()
         if len(store.inventory) != 0:
-            customer.customerBuyProduct(store, money, supplier)
+            test = customer.customerBuyProduct(store, money, supplier)
+            if test == 0:
+                shopFail = 1
+                shopSuccess = 0
+            else:
+                shopSuccess = 1
+                shopFail = 0
             makeBox()
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 20))
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
