@@ -32,10 +32,12 @@ class events:
         if store.inventory[product][2] > 5 * store.inventory[product][3]:
             print("PRODUCT COSTS TOO MUCH, CUSTOMER REFUSED TO BUY")
             return 0
+
+        prodName = store.inventory[product][0]
         store.sellProduct(product, amount, money)
 
         # return product that was purchased
-        return store.inventory[product][0]
+        return prodName
 
     # Reduces the total amount of money by a random amount between (1, 300) dollars to simulate a robbery
     def robberStealMoney(self, money):
