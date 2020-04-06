@@ -3,6 +3,8 @@ from supplier import supplier
 from store import store
 from money import money
 from events import events
+from random import randint
+import math
 
 layout = pygame.image.load("./pictures/Layout.PNG")
 layout1 = pygame.image.load("./pictures/apple.png")
@@ -309,6 +311,8 @@ screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
+shoplifterTime = pygame.time.get_ticks()
+robberTime = pygame.time.get_ticks()
 text = ""
 amountMovex = 0
 eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
@@ -337,6 +341,7 @@ while playing_game:
         storeUpdate = 1
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
+        makeBox()
 
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 500 < pygame.time.get_ticks():

@@ -1,4 +1,3 @@
-from random import seed
 from random import randint
 import math
 
@@ -16,7 +15,12 @@ class events:
                    "Amateur robotics team accidentally creates AI capable of self thought.",
                    "Novel Superbug is 'just a really nice guy' says doctors.",
                    "World's largest Chia Pet sold for $540,000 at auction.",
-                   "Scientists discover new way to create synthetic muscles, babies to bench 150 lbs by the end of this summer."]
+                   "Scientists discover new way to create synthetic muscles, babies to bench 150 lbs by the end of this summer.",
+                   "History's greatest jewel heist gang arrested, police officers worldwide rejoice.",
+                   "Transcontinental scooter track opened, carbon emissions to reduce 40% by the end of next year.",
+                   "High tech burger flipping technology developed by Squarepants Inc.",
+                   "Mayor Antone Deponte announces free sodie pop to child who brings in the most Box Tops.",
+                   "Never before seen movie found in storage, is expected to beat out all superhero movies at box office."]
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
     # increase money by amount x product price
@@ -45,6 +49,11 @@ class events:
         event = randint(0, len(self.worldEvents)-1)
         product = randint(0, len(supplier.stock)-1)
         amount = math.floor(supplier.stock[product][2])
-        change = randint(amount*(-1), amount)
-        supplier.stock[product][2] = supplier.stock[product][2] + change
+        dollar = randint(amount*(-1), amount)
+        final = round(supplier.stock[product][2] + dollar)
+        cents = randint(1, 99)
+        final = final + (cents/100)
+        if final == 0:
+            final = 1.00
+        supplier.stock[product][2] = final
         return self.worldEvents[event]
