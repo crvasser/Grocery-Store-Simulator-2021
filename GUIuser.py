@@ -148,7 +148,6 @@ def drawStartShopping(shopper):
     customerCollisionList1.add(shopper)
     customerCollisionList1.draw(screen)
     customerCollisionList1.remove(shopper)
-    print("shopper new shopper")
 
 
 def drawFailedShopping(shopper):
@@ -158,7 +157,6 @@ def drawFailedShopping(shopper):
     customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
     customerCollisionList2.remove(shopper)
-    print("shopper didnt buy anything")
 
 
 def drawSuccessfulShopping(shopper, purchase):
@@ -171,7 +169,6 @@ def drawSuccessfulShopping(shopper, purchase):
     customerCollisionList2.draw(screen)
     customerCollisionList2.remove(purchase)
     customerCollisionList2.remove(shopper)
-    print("shopper bought something")
 
 
 # Method to draw out the store inventory
@@ -346,6 +343,7 @@ while playing_game:
         drawSuccessfulShopping(curShopper, purchase)
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
+
 
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
