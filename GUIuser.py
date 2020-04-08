@@ -25,6 +25,14 @@ class Item(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
+def doubleCheck(myFloat):
+    try:
+        num = float(myFloat)
+    except ValueError:
+        return False
+    return True
+
+
 # method called when purchase is made
 # attempts to buy items from the supplier based on amounts entered
 # returns with flags set for any errors that occurred
@@ -47,8 +55,8 @@ def finishPurchase():
     sellPrice = slider1.get_value()
     if len(product) != 0:
         if amount.isdigit():
-            if sellPrice.isdigit():
-                if store.add(product, int(amount), supplier, int(sellPrice), money):
+            if doubleCheck(sellPrice):
+                if store.add(product, int(amount), supplier, float(sellPrice), money):
                     print("amount", amount)
                     print("sellPrice", sellPrice)
                     print("product", product)
@@ -120,7 +128,7 @@ def drawSupplierInventory():
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         supplierCollisionList.add(tempItem)
-        supplierText = myfont.render("$" + str(supplier.stock[i][2]), 1, (0, 0, 0))
+        supplierText = myfont.render("${0}".format(round(supplier.stock[i][2], 2)), 1, (0, 0, 0))
         screen.blit(supplierText, (start, beginY - 15))
         supplierText = myfont.render("x" + str(supplier.stock[i][1]), 1, (0, 0, 0))
         screen.blit(supplierText, (start + 15, beginY + 65))
@@ -181,7 +189,7 @@ def drawStoreInventory():
         tempItem.rect.x = start
         tempItem.rect.y = beginY
         storeCollisionList.add(tempItem)
-        storeText = myfont.render("$" + str(store.inventory[i][2]), 1, (0, 0, 0))
+        storeText = myfont.render("${0}".format(round(store.inventory[i][2], 2)), 1, (0, 0, 0))
         screen.blit(storeText, (start, beginY - 15))
         storeText = myfont.render("x" + str(store.inventory[i][1]), 1, (0, 0, 0))
         screen.blit(storeText, (start + 15, beginY + 65))
