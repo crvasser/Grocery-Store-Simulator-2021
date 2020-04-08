@@ -67,5 +67,3 @@ class store:
         self.inventory[productIndex][1] -= amount
         if self.inventory[productIndex][1] == 0:
             self.inventory.remove(self.inventory[productIndex])
-
-
