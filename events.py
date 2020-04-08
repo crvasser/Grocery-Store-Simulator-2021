@@ -20,7 +20,10 @@ class events:
                    "Transcontinental scooter track opened, carbon emissions to reduce 40% by the end of next year.",
                    "High tech burger flipping technology developed by Squarepants Inc.",
                    "Mayor Antone Deponte announces free sodie pop to child who brings in the most Box Tops.",
-                   "Never before seen movie found in storage, is expected to beat out all superhero movies at box office."]
+                   "Never before seen movie found in storage, is expected to beat out all superhero movies at box office.",
+                   "Gas leak in old house turns out to be century old cow in basement emitting methane.",
+                   "MalWart CEO Tim Timothy turns towards teflon as riots break out over best cookware material.",
+                   "George Clooney's ego wins Best Supporting Role at this year's movie awards."]
 
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
@@ -47,19 +50,20 @@ class events:
     # Removes a random amount of a random product from the store inventory to simulate a shoplifting event
     def shoplifterStealProduct(self, store):
         product = randint(0, len(store.inventory)-1)
-        amount = randint(0, min(store.inventory[product][1], 5))
+        amount = randint(0, min(store.inventory[product][1], 50))
         store.removeProduct(product, amount)
 
     # Randomizes a price change for a product. Will be called by world events call
     def supplierRandomPriceChange(self, supplier):
         event = randint(0, len(self.worldEvents)-1)
-        product = randint(0, len(supplier.stock)-1)
-        amount = math.floor(supplier.stock[product][2])
-        dollar = randint(amount*(-1), amount)
-        final = round(supplier.stock[product][2] + dollar)
-        cents = randint(1, 99)
-        final = final + (cents/100)
-        if final == 0:
-            final = 1.00
-        supplier.stock[product][2] = final
+        #Change all prices in supplier
+        for product in range(len(supplier.stock)):
+            amount = math.floor(supplier.stock[product][2])
+            dollar = randint(amount*(-1), amount)
+            final = round(supplier.stock[product][2] + dollar)
+            cents = randint(1, 99)
+            final = final + (cents/100)
+            if final == 0:
+                final = 1.00
+            supplier.stock[product][2] = final
         return self.worldEvents[event]
