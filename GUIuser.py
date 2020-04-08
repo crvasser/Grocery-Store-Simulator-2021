@@ -347,6 +347,7 @@ while playing_game:
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
 
+
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
