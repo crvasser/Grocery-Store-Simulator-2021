@@ -152,7 +152,7 @@ def drawStartShopping(shopper):
 
 def drawFailedShopping(shopper):
     global customerCollisionList2
-    if shopper.rect.x > screen.get_width()/3:
+    if shopper.rect.x > screen.get_width() / 3:
         shopper.rect.x = shopper.rect.x - 1
         customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
@@ -161,7 +161,7 @@ def drawFailedShopping(shopper):
 
 def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
-    if shopper.rect.x > screen.get_width()/3:
+    if shopper.rect.x > screen.get_width() / 3:
         shopper.rect.x = shopper.rect.x - 1
         purchase.rect.x = shopper.rect.x - 60
         if purchase.rect.x > screen.get_width() / 3:
@@ -273,8 +273,26 @@ def makeBox():
     storeUpdate = 1
     supplierUpdate = 1
 
+
+def drawShopLifting(shoplifter):
+    global shopliferCollisionList
+    shoplifter.rect.x = shoplifter.rect.x + 1
+    shopliferCollisionList.add(shoplifter)
+    shopliferCollisionList.draw(screen)
+    shopliferCollisionList.remove(shoplifter)
+
+
 def drawStartMenu():
     screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+
+
+def drawReturnShoplifting(shoplifter):
+    global shopliferCollisionList
+    if shoplifter.rect.x > screen.get_width() / 3:
+        shoplifter.rect.x = shoplifter.rect.x - 1
+        shopliferCollisionList.add(shoplifter)
+    shopliferCollisionList.draw(screen)
+    shopliferCollisionList.remove(shoplifter)
 
 shopping = 0
 text = ""
@@ -331,7 +349,9 @@ curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
 shoplifterTime = pygame.time.get_ticks()
+shopliferCollisionList = pygame.sprite.Group()
 robberTime = pygame.time.get_ticks()
+robberCollisionList = pygame.sprite.Group()
 startClearing = 0
 text = ""
 amountMovex = 0
@@ -360,7 +380,8 @@ while inMenu:
                 if clicked[0].name == "start":
                     inMenu = False
 makeBox()
-
+startShopLifting = 0
+firstShoplifter = 0
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
@@ -375,7 +396,10 @@ while playing_game:
         drawSuccessfulShopping(curShopper, purchase)
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
-
+    if startShopLifting == 1:
+        drawShopLifting(shoplifter)
+    if startShopLifting == 0 and firstShoplifter == 1:
+        drawReturnShoplifting(curShoplifter)  # stolen product would be added here
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
@@ -386,7 +410,19 @@ while playing_game:
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
         makeBox()
-
+    if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep offset to avoid overlap
+        firstShoplifter = 1
+        shoplifterTime = pygame.time.get_ticks()
+        shoplifter = Item(500, 500, "shoplifter", "Shoplifter")
+        shoplifter.rect.x = screen.get_width() / 3
+        shoplifter.rect.y = screen.get_height() / 3 + 270
+        startShopLifting = 1
+    if shoplifterTime + 10000 < pygame.time.get_ticks() and startShopLifting == 1:  # keep this as is
+        curShoplifter = shoplifter
+        shoplifterTime = pygame.time.get_ticks()
+        customer.shoplifterStealProduct(store)
+        startShopLifting = 0
+        storeUpdate = 1
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 500 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - 10)
