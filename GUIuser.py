@@ -152,20 +152,22 @@ def drawStartShopping(shopper):
 
 def drawFailedShopping(shopper):
     global customerCollisionList2
-
-    shopper.rect.x = shopper.rect.x - 1
-    customerCollisionList2.add(shopper)
+    if shopper.rect.x > screen.get_width()/3:
+        shopper.rect.x = shopper.rect.x - 1
+        customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
     customerCollisionList2.remove(shopper)
 
 
 def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
-    purchase.rect.x = shopper.rect.x - 60
-    purchase.rect.y = shopper.rect.y
-    shopper.rect.x = shopper.rect.x - 1
-    customerCollisionList2.add(shopper)
-    customerCollisionList2.add(purchase)
+    if shopper.rect.x > screen.get_width()/3:
+        shopper.rect.x = shopper.rect.x - 1
+        purchase.rect.x = shopper.rect.x - 60
+        if purchase.rect.x > screen.get_width() / 3:
+            customerCollisionList2.add(purchase)
+        purchase.rect.y = shopper.rect.y
+        customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
     customerCollisionList2.remove(purchase)
     customerCollisionList2.remove(shopper)
@@ -271,6 +273,8 @@ def makeBox():
     storeUpdate = 1
     supplierUpdate = 1
 
+def drawStartMenu():
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
 
 shopping = 0
 text = ""
@@ -293,6 +297,9 @@ store = store()
 pygame.init()
 pygame.key.set_repeat(300, 30)
 screen = pygame.display.set_mode((1920, 1080))
+inMenu = True
+screen.fill((255, 255, 255))
+clock = pygame.time.Clock()
 flagUnavail = 0
 flagInvalidPrice = 0
 flagInvalidAmount = 0
@@ -310,12 +317,13 @@ white = (255, 255, 255)
 money = money(2000)
 supplierUpdate = 1
 storeUpdate = 1
-makeBox()
+
 shopSuccess = 0
 shopFail = 0
 supplierCollisionList = pygame.sprite.Group()
 customerCollisionList1 = pygame.sprite.Group()
 customerCollisionList2 = pygame.sprite.Group()
+menuCollisionList = pygame.sprite.Group()
 storeCollisionList = list()
 # we regroup all elements on a menu, even if we do not launch the menu
 screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
@@ -329,6 +337,30 @@ text = ""
 amountMovex = 0
 eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
 playing_game = True
+menuClock = pygame.time.Clock()
+while inMenu:
+    menuClock.tick(45)
+    startButton = Item(500, 500, "start", "Apples")  # this should have start button image
+    quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
+    quitButton.rect.x = screen.get_width() / 3 + 400
+    quitButton.rect.y = screen.get_height() / 3
+    startButton.rect.y = screen.get_height() / 3
+    startButton.rect.x = screen.get_width() / 3
+    menuCollisionList.add(quitButton)
+    menuCollisionList.add(startButton)
+    menuCollisionList.draw(screen)
+    pygame.event.pump()
+    pygame.display.flip()
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))  # this should have the actual title image
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            clicked = [c for c in menuCollisionList if c.rect.collidepoint(pos)]
+            if len(clicked) != 0:
+                if clicked[0].name == "start":
+                    inMenu = False
+makeBox()
+
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
@@ -343,7 +375,6 @@ while playing_game:
         drawSuccessfulShopping(curShopper, purchase)
     if shopFail == 1 and shopSuccess == 0:
         drawFailedShopping(curShopper)
-
 
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
