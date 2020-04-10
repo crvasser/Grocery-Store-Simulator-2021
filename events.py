@@ -49,9 +49,10 @@ class events:
 
     # Removes a random amount of a random product from the store inventory to simulate a shoplifting event
     def shoplifterStealProduct(self, store):
-        product = randint(0, len(store.inventory)-1)
-        amount = randint(0, min(store.inventory[product][1], 50))
-        store.removeProduct(product, amount)
+        if store.inventory > 1:
+            product = randint(0, len(store.inventory)-1)
+            amount = randint(0, min(store.inventory[product][1], 50))
+            store.removeProduct(product, amount)
 
     # Randomizes a price change for a product. Will be called by world events call
     def supplierRandomPriceChange(self, supplier):
