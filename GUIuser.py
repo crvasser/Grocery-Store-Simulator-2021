@@ -274,6 +274,10 @@ def makeBox():
     supplierUpdate = 1
 
 
+def drawStartMenu():
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+
+
 def drawShopLifting(shoplifter):
     global shopliferCollisionList
     shoplifter.rect.x = shoplifter.rect.x + 1
@@ -282,8 +286,33 @@ def drawShopLifting(shoplifter):
     shopliferCollisionList.remove(shoplifter)
 
 
-def drawStartMenu():
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+def drawRobbing(robber):
+    global robberCollisionList
+    if robber.rect.x < screen.get_width() / 3 + 200:
+        robber.rect.x = robber.rect.x + 1
+    else:
+        if robber.rect.y < screen.get_height() / 3 + 370:
+            robber.rect.y = robber.rect.y + 1
+    robberCollisionList.add(robber)
+    robberCollisionList.draw(screen)
+    robberCollisionList.remove(robber)
+
+
+def drawReturnRobbing(robber, stolenAmount):
+    global robberCollisionList
+
+    if robber.rect.y > screen.get_height() / 3 + 290:
+        stolenString = "-$" + str(stolenAmount)
+        stolenText = myfont.render(stolenString, 1, (0, 0, 0))
+        screen.blit(stolenText, (robber.rect.x + 20, robber.rect.y))
+    if robber.rect.x > screen.get_width() / 3:
+        if robber.rect.y > screen.get_height() / 3 + 270:
+            robber.rect.y = robber.rect.y - 1
+        else:
+            robber.rect.x = robber.rect.x - 1
+        robberCollisionList.add(robber)
+    robberCollisionList.draw(screen)
+    robberCollisionList.remove(robber)
 
 
 def drawReturnShoplifting(shoplifter):
@@ -293,6 +322,7 @@ def drawReturnShoplifting(shoplifter):
         shopliferCollisionList.add(shoplifter)
     shopliferCollisionList.draw(screen)
     shopliferCollisionList.remove(shoplifter)
+
 
 shopping = 0
 text = ""
@@ -382,6 +412,8 @@ while inMenu:
 makeBox()
 startShopLifting = 0
 firstShoplifter = 0
+startRobbing = 0
+firstRobber = 0
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
@@ -400,6 +432,10 @@ while playing_game:
         drawShopLifting(shoplifter)
     if startShopLifting == 0 and firstShoplifter == 1:
         drawReturnShoplifting(curShoplifter)  # stolen product would be added here
+    if startRobbing == 1:
+        drawRobbing(robber)
+    if startRobbing == 0 and firstRobber == 1:
+        drawReturnRobbing(curRobber, stolenAmount)
     # After 60000 ticks have a random event happen that affects the market
     if curTime2 + 60000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
@@ -410,7 +446,7 @@ while playing_game:
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
         makeBox()
-    if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep offset to avoid overlap
+    if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep the 2k offset to avoid overlap
         firstShoplifter = 1
         shoplifterTime = pygame.time.get_ticks()
         shoplifter = Item(500, 500, "shoplifter", "Shoplifter")
@@ -423,6 +459,18 @@ while playing_game:
         customer.shoplifterStealProduct(store)
         startShopLifting = 0
         storeUpdate = 1
+    if robberTime + 32000 < pygame.time.get_ticks() and startRobbing == 0:
+        firstRobber = 1
+        robberTime = pygame.time.get_ticks()
+        robber = Item(500, 500, "robber", "Robber")
+        robber.rect.x = screen.get_width() / 3
+        robber.rect.y = screen.get_height() / 3 + 270
+        startRobbing = 1
+    if robberTime + 10000 < pygame.time.get_ticks() and startRobbing == 1:
+        curRobber = robber
+        robberTime = pygame.time.get_ticks()
+        stolenAmount = customer.robberStealMoney(money)
+        startRobbing = 0
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 500 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - 10)

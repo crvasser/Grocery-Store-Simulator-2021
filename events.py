@@ -49,6 +49,7 @@ class events:
     def robberStealMoney(self, money):
         amount = randint(0, 300)
         money.setMoney(money.getMoney() - amount)
+        return amount
 
     # Removes a random amount of a random product from the store inventory to simulate a shoplifting event
     def shoplifterStealProduct(self, store):
