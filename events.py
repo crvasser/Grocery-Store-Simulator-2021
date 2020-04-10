@@ -23,7 +23,10 @@ class events:
                    "Never before seen movie found in storage, is expected to beat out all superhero movies at box office.",
                    "Gas leak in old house turns out to be century old cow in basement emitting methane.",
                    "MalWart CEO Tim Timothy turns towards teflon as riots break out over best cookware material.",
-                   "George Clooney's ego wins Best Supporting Role at this year's movie awards."]
+                   "George Clooney's ego wins Best Supporting Role at this year's movie awards.",
+                   "CoolMathGames.com sued for $14 million by Teacher's Union of America for emotional damages.",
+                   "Brand new store simulation game turns out to correctly predict future market trends, programmers win Nobel Prizes.",
+                   "Audi announces new self driving car capable of anticipating crashes, innocent people to be accused of future vehicular manslaughter."]
 
     # call to method within store class that first checks for available product
     # if product is available in specified amount, remove product from inventory
