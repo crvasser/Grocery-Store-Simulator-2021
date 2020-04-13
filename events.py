@@ -56,8 +56,11 @@ class events:
         if len(store.inventory) > 1:
             product = randint(0, len(store.inventory)-1)
             amount = randint(0, min(store.inventory[product][1], 50))
+
+            prodName = store.inventory[product][0]
             store.removeProduct(product, amount)
-            return store.inventory[product][0]
+
+            return prodName
 
     # Randomizes a price change for a product. Will be called by world events call
     def supplierRandomPriceChange(self, supplier):
