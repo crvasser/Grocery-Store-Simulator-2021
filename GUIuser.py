@@ -457,7 +457,9 @@ while playing_game:
         shoplifter.rect.y = screen.get_height() / 3 + 270
         startShopLifting = 1
     if shoplifterTime + 10000 < pygame.time.get_ticks() and startShopLifting == 1:  # keep this as is
-        curShoplifter = shoplifter
+        curShoplifter = Item(500, 500, "Shoplifter-1", "Shoplifter-1")
+        curShoplifter.rect.x = shoplifter.rect.x
+        curShoplifter.rect.y = shoplifter.rect.y
         shoplifterTime = pygame.time.get_ticks()
         customer.shoplifterStealProduct(store)
         startShopLifting = 0
