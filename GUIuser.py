@@ -118,6 +118,7 @@ def hideMenu():
 def drawSupplierInventory():
     global supplierUpdate
     global supplierCollisionList
+    screen.fill(white, (screen.get_width() // 3 + screen.get_width() // 3, 0, screen.get_width() // 3, screen.get_height()))
     supplierCollisionList = pygame.sprite.Group()
     supplierText = myfont.render("Supplier Inventory", 1, (0, 0, 0))
     screen.blit(supplierText, (1500, 125))
@@ -161,6 +162,7 @@ def drawFailedShopping(shopper):
 
 def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
+
     if shopper.rect.x > screen.get_width() / 3:
         shopper.rect.x = shopper.rect.x - 1
         purchase.rect.x = shopper.rect.x - 60
@@ -179,6 +181,7 @@ def drawStoreInventory():
     global storeUpdate
     global storeCollisionList
     storeCollisionList = pygame.sprite.Group()
+    screen.fill(white, (0, 0, screen.get_width() // 3, screen.get_height()))
     storeText = myfont.render("Store Inventory", 1, (0, 0, 0))
     screen.blit(storeText, (150, 125))
     start = 5
@@ -500,8 +503,10 @@ while playing_game:
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
     if supplierUpdate == 1:
+
         drawSupplierInventory()
     if storeUpdate == 1:
+
         drawStoreInventory()
     # When money hits 0, game over
     if money.getMoney() < 0:
