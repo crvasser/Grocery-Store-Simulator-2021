@@ -362,7 +362,7 @@ customer = events()
 pygame.display.flip()
 white = (255, 255, 255)
 # declaration of some ThorPy elements ...
-money = money(2000)
+money = money(5000)
 supplierUpdate = 1
 storeUpdate = 1
 
@@ -472,8 +472,8 @@ while playing_game:
         stolenAmount = customer.robberStealMoney(money)
         startRobbing = 0
     # After 500 ticks take away 10 dollars in taxes
-    if curTime + 500 < pygame.time.get_ticks():
-        money.setMoney(money.getMoney() - 10)
+    if curTime + 10000 < pygame.time.get_ticks():
+        money.setMoney(money.getMoney() - (money.getMoney()*0.05))
         curTime = pygame.time.get_ticks()
     # After 10000 ticks have a customer come in and buy some random items
     if curTime1 + 10000 < pygame.time.get_ticks():

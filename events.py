@@ -53,7 +53,8 @@ class events:
 
     # Removes a random amount of a random product from the store inventory to simulate a shoplifting event
     def shoplifterStealProduct(self, store):
-        if len(store.inventory) > 1:
+        if len(store.inventory) > 0:
+            print("Shoplifter is stealing!!!!")
             product = randint(0, len(store.inventory)-1)
             amount = randint(0, min(store.inventory[product][1], 50))
 
