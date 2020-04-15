@@ -118,7 +118,7 @@ def hideMenu():
 def drawSupplierInventory():
     global supplierUpdate
     global supplierCollisionList
-    screen.fill(white, (screen.get_width() // 3 + screen.get_width() // 3, 0, screen.get_width() // 3, screen.get_height()))
+    screen.fill(white, (screen.get_width() // 3 + screen.get_width() // 3, screen.get_height() // 14, screen.get_width() // 3, screen.get_height()))
     supplierCollisionList = pygame.sprite.Group()
     supplierText = myfont.render("Supplier Inventory", 1, (0, 0, 0))
     screen.blit(supplierText, (1500, 125))
@@ -390,6 +390,7 @@ text = ""
 amountMovex = 0
 eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
 playing_game = True
+inExit = True
 menuClock = pygame.time.Clock()
 while inMenu:
     menuClock.tick(45)
@@ -416,11 +417,13 @@ while inMenu:
                 if clicked[0].name == "quit":
                     inMenu = False
                     playing_game = False
+                    inExit = False
                     pygame.mixer.music.stop()
         if event.type == pygame.QUIT:
             inMenu = False
             pygame.mixer.quit()
             playing_game = False
+            inExit = False
 
 startShopLifting = 0
 firstShoplifter = 0
@@ -538,6 +541,7 @@ while playing_game:
             pygame.mixer.music.stop()
             pygame.mixer.quit()
             playing_game = False
+            inExit = False
             break
         #        elif event.type == pygame.KEYDOWN:
         #            if event.key == pygame.K_LEFT:
@@ -547,7 +551,6 @@ while playing_game:
         #                pygame.draw.rect(screen, (255,0,0), rect) #drat new
         #                pygame.display.update(rect)
         menu.react(event)  # the menu automatically integrate your elements
-inExit = True
 exitClock = pygame.time.Clock()
 exitCollisionList = pygame.sprite.Group()
 screen.fill(white)
@@ -570,9 +573,7 @@ while inExit:
             if len(clicked) != 0:
                 if clicked[0].name == "quit":
                     inExit = False
-                    pygame.mixer.music.stop()
         if event.type == pygame.QUIT:
             inExit = False
-            pygame.mixer.quit()
 
 pygame.quit()
