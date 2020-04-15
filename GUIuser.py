@@ -416,6 +416,11 @@ while inMenu:
                 if clicked[0].name == "quit":
                     inMenu = False
                     playing_game = False
+                    pygame.mixer.music.stop()
+        if event.type == pygame.QUIT:
+            inMenu = False
+            pygame.mixer.quit()
+            playing_game = False
 
 startShopLifting = 0
 firstShoplifter = 0
