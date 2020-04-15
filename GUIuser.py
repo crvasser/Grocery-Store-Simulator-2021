@@ -181,7 +181,7 @@ def drawStoreInventory():
     global storeUpdate
     global storeCollisionList
     storeCollisionList = pygame.sprite.Group()
-    screen.fill(white, (0, 0, screen.get_width() // 3, screen.get_height()))
+    screen.fill(white, (0, screen.get_height() // 14, screen.get_width() // 3, screen.get_height()))
     storeText = myfont.render("Store Inventory", 1, (0, 0, 0))
     screen.blit(storeText, (150, 125))
     start = 5
