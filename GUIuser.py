@@ -119,7 +119,9 @@ def hideMenu():
 def drawSupplierInventory():
     global supplierUpdate
     global supplierCollisionList
-    screen.fill(white, (screen.get_width() // 3 + screen.get_width() // 3, screen.get_height() // 14, screen.get_width() // 3, screen.get_height()))
+    screen.fill(white, (
+    screen.get_width() // 3 + screen.get_width() // 3, screen.get_height() // 14, screen.get_width() // 3,
+    screen.get_height()))
     supplierCollisionList = pygame.sprite.Group()
     supplierText = myfont.render("Supplier Inventory", 1, (0, 0, 0))
     screen.blit(supplierText, (1500, 125))
@@ -393,6 +395,7 @@ eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
 playing_game = True
 inExit = True
 menuClock = pygame.time.Clock()
+
 while inMenu:
     menuClock.tick(45)
     startButton = Item(500, 500, "start", "Apples")  # this should have start button image
@@ -425,7 +428,7 @@ while inMenu:
             pygame.mixer.quit()
             playing_game = False
             inExit = False
-
+stolen = False
 startShopLifting = 0
 firstShoplifter = 0
 startRobbing = 0
@@ -470,11 +473,15 @@ while playing_game:
         shoplifter.rect.y = screen.get_height() / 3 + 270
         startShopLifting = 1
     if shoplifterTime + 10000 < pygame.time.get_ticks() and startShopLifting == 1:  # keep this as is
-        curShoplifter = Item(500, 500, "Shoplifter-1", "Shoplifter-1")
+
+        shoplifterTime = pygame.time.get_ticks()
+        stolen = customer.shoplifterStealProduct(store)
+        if stolen:
+            curShoplifter = Item(500, 500, "Shoplifter-1", "Shoplifter-1")
+        else:
+            curShoplifter = shoplifter
         curShoplifter.rect.x = shoplifter.rect.x
         curShoplifter.rect.y = shoplifter.rect.y
-        shoplifterTime = pygame.time.get_ticks()
-        customer.shoplifterStealProduct(store)
         startShopLifting = 0
         storeUpdate = 1
     if robberTime + 32000 < pygame.time.get_ticks() and startRobbing == 0:
@@ -491,7 +498,7 @@ while playing_game:
         startRobbing = 0
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 10000 < pygame.time.get_ticks():
-        money.setMoney(money.getMoney() - ((money.getMoney()*0.025) + 50))
+        money.setMoney(money.getMoney() - ((money.getMoney() * 0.025) + 50))
         curTime = pygame.time.get_ticks()
     # After 10000 ticks have a customer come in and buy some random items
     if curTime1 + 10000 < pygame.time.get_ticks():
@@ -518,10 +525,8 @@ while playing_game:
     scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
     screen.blit(scoretext, (5, 10))
     if supplierUpdate == 1:
-
         drawSupplierInventory()
     if storeUpdate == 1:
-
         drawStoreInventory()
     # When money hits 0, game over
     if money.getMoney() < 0:

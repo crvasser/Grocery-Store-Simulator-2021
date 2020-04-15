@@ -61,7 +61,9 @@ class events:
             prodName = store.inventory[product][0]
             store.removeProduct(product, amount)
 
-            return prodName
+            return True
+        else:
+            return False
 
     # Randomizes a price change for a product. Will be called by world events call
     def supplierRandomPriceChange(self, supplier):
