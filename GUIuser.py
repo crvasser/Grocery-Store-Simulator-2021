@@ -440,15 +440,14 @@ while playing_game:
     if startRobbing == 0 and firstRobber == 1:
         drawReturnRobbing(curRobber, stolenAmount)
     # After 60000 ticks have a random event happen that affects the market
-    if curTime2 + 60000 < pygame.time.get_ticks():
+    if curTime2 + 20000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
         text = customer.supplierRandomPriceChange(supplier)
         eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
-        screen.fill(white)
+        screen.fill(white, (0, 0, screen.get_width(), screen.get_height() // 20))
         storeUpdate = 1
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
-        makeBox()
     if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep the 2k offset to avoid overlap
         firstShoplifter = 1
         shoplifterTime = pygame.time.get_ticks()
