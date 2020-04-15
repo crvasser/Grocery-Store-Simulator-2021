@@ -7,10 +7,11 @@ from random import randint
 import math
 
 layout = pygame.image.load("./pictures/Layout.PNG")
-layout1 = pygame.image.load("./pictures/apple.png")
+layout1 = pygame.image.load("./pictures/gss.png")
 pygame.mixer.init()
 pygame.mixer.music.load("./Music/Groovy.wav")
 pygame.mixer.music.play(loops=-1)
+pygame.mixer.music.set_volume(.5)
 
 
 class Item(pygame.sprite.Sprite):
@@ -405,7 +406,7 @@ while inMenu:
     menuCollisionList.draw(screen)
     pygame.event.pump()
     pygame.display.flip()
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))  # this should have the actual title image
+    screen.blit(layout1, (0, 0))  # this should have the actual title image
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
