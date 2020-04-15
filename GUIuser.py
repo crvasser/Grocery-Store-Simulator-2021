@@ -412,7 +412,11 @@ while inMenu:
             if len(clicked) != 0:
                 if clicked[0].name == "start":
                     inMenu = False
-makeBox()
+                    makeBox()
+                if clicked[0].name == "quit":
+                    inMenu = False
+                    playing_game = False
+
 startShopLifting = 0
 firstShoplifter = 0
 startRobbing = 0
