@@ -141,7 +141,7 @@ def drawSupplierInventory():
             beginY = beginY + 130
             start = 1300
     supplierCollisionList.draw(screen)
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     supplierUpdate = 0
 
 
@@ -156,7 +156,7 @@ def drawStartShopping(shopper):
 
 def drawFailedShopping(shopper):
     global customerCollisionList2
-    if shopper.rect.x > screen.get_width() / 3:
+    if shopper.rect.x > screen.get_width() // 3:
         shopper.rect.x = shopper.rect.x - 1
         customerCollisionList2.add(shopper)
     customerCollisionList2.draw(screen)
@@ -166,10 +166,10 @@ def drawFailedShopping(shopper):
 def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
 
-    if shopper.rect.x > screen.get_width() / 3:
+    if shopper.rect.x > screen.get_width() // 3:
         shopper.rect.x = shopper.rect.x - 1
         purchase.rect.x = shopper.rect.x - 60
-        if purchase.rect.x > screen.get_width() / 3:
+        if purchase.rect.x > screen.get_width() // 3:
             customerCollisionList2.add(purchase)
         purchase.rect.y = shopper.rect.y
         customerCollisionList2.add(shopper)
@@ -203,7 +203,7 @@ def drawStoreInventory():
             beginY = beginY + 130
             start = 5
     storeCollisionList.draw(screen)
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     storeUpdate = 0
 
 
@@ -269,11 +269,11 @@ def makeBox():
     menu = thorpy.Menu(central_box)
     for element in menu.get_population():
         element.surface = screen
-    central_box.set_topleft((screen.get_width() / 3, 80))
+    central_box.set_topleft((screen.get_width() // 3, 80))
     central_box.blit()
     central_box.update()
     madePurchase = 0
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     if len(text) != 0:
         screen.blit(eventText, (5, 60))
     storeUpdate = 1
@@ -281,15 +281,15 @@ def makeBox():
 
 
 def drawStartMenu():
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
 
 
 def drawShopLifting(shoplifter):
-    global shopliferCollisionList
+    global shoplifterCollisionList
     shoplifter.rect.x = shoplifter.rect.x + 1
-    shopliferCollisionList.add(shoplifter)
-    shopliferCollisionList.draw(screen)
-    shopliferCollisionList.remove(shoplifter)
+    shoplifterCollisionList.add(shoplifter)
+    shoplifterCollisionList.draw(screen)
+    shoplifterCollisionList.remove(shoplifter)
 
 
 def drawRobbing(robber):
@@ -307,12 +307,12 @@ def drawRobbing(robber):
 def drawReturnRobbing(robber, stolenAmount):
     global robberCollisionList
 
-    if robber.rect.y > screen.get_height() / 3 + 290:
+    if robber.rect.y > screen.get_height() // 3 + 290:
         stolenString = "-$" + str(stolenAmount)
         stolenText = myfont.render(stolenString, 1, (0, 0, 0))
         screen.blit(stolenText, (robber.rect.x + 20, robber.rect.y))
-    if robber.rect.x > screen.get_width() / 3:
-        if robber.rect.y > screen.get_height() / 3 + 270:
+    if robber.rect.x > screen.get_width() // 3:
+        if robber.rect.y > screen.get_height() // 3 + 270:
             robber.rect.y = robber.rect.y - 1
         else:
             robber.rect.x = robber.rect.x - 1
@@ -322,12 +322,12 @@ def drawReturnRobbing(robber, stolenAmount):
 
 
 def drawReturnShoplifting(shoplifter):
-    global shopliferCollisionList
-    if shoplifter.rect.x > screen.get_width() / 3:
+    global shoplifterCollisionList
+    if shoplifter.rect.x > screen.get_width() // 3:
         shoplifter.rect.x = shoplifter.rect.x - 1
-        shopliferCollisionList.add(shoplifter)
-    shopliferCollisionList.draw(screen)
-    shopliferCollisionList.remove(shoplifter)
+        shoplifterCollisionList.add(shoplifter)
+    shoplifterCollisionList.draw(screen)
+    shoplifterCollisionList.remove(shoplifter)
 
 
 shopping = 0
@@ -380,12 +380,12 @@ customerCollisionList2 = pygame.sprite.Group()
 menuCollisionList = pygame.sprite.Group()
 storeCollisionList = list()
 # we regroup all elements on a menu, even if we do not launch the menu
-screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
 curTime = pygame.time.get_ticks()
 curTime1 = pygame.time.get_ticks()
 curTime2 = pygame.time.get_ticks()
 shoplifterTime = pygame.time.get_ticks()
-shopliferCollisionList = pygame.sprite.Group()
+shoplifterCollisionList = pygame.sprite.Group()
 robberTime = pygame.time.get_ticks()
 robberCollisionList = pygame.sprite.Group()
 startClearing = 0
@@ -400,10 +400,10 @@ while inMenu:
     menuClock.tick(45)
     startButton = Item(500, 500, "start", "Apples")  # this should have start button image
     quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
-    quitButton.rect.x = screen.get_width() / 3 + 400
-    quitButton.rect.y = screen.get_height() / 3
-    startButton.rect.y = screen.get_height() / 3
-    startButton.rect.x = screen.get_width() / 3
+    quitButton.rect.x = screen.get_width() // 3 + 400
+    quitButton.rect.y = screen.get_height() // 3
+    startButton.rect.y = screen.get_height() // 3
+    startButton.rect.x = screen.get_width() // 3
     menuCollisionList.add(quitButton)
     menuCollisionList.add(startButton)
     menuCollisionList.draw(screen)
@@ -436,11 +436,11 @@ firstRobber = 0
 while playing_game:
     clock.tick(45)
     pygame.display.flip()
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     if startShopping == 1:
         newShopper = Item(500, 500, "customer", "Customer1")  # this will be customer sprite
-        newShopper.rect.x = screen.get_width() / 3
-        newShopper.rect.y = screen.get_height() / 3 + 270
+        newShopper.rect.x = screen.get_width() // 3
+        newShopper.rect.y = screen.get_height() // 3 + 270
         startShopping = 0
     drawStartShopping(newShopper)
     if shopSuccess == 1 and shopFail == 0:
@@ -469,8 +469,8 @@ while playing_game:
         firstShoplifter = 1
         shoplifterTime = pygame.time.get_ticks()
         shoplifter = Item(500, 500, "shoplifter", "Shoplifter")
-        shoplifter.rect.x = screen.get_width() / 3
-        shoplifter.rect.y = screen.get_height() / 3 + 270
+        shoplifter.rect.x = screen.get_width() // 3
+        shoplifter.rect.y = screen.get_height() // 3 + 270
         startShopLifting = 1
     if shoplifterTime + 10000 < pygame.time.get_ticks() and startShopLifting == 1:  # keep this as is
 
@@ -488,8 +488,8 @@ while playing_game:
         firstRobber = 1
         robberTime = pygame.time.get_ticks()
         robber = Item(500, 500, "robber", "Robber")
-        robber.rect.x = screen.get_width() / 3
-        robber.rect.y = screen.get_height() / 3 + 270
+        robber.rect.x = screen.get_width() // 3
+        robber.rect.y = screen.get_height() // 3 + 270
         startRobbing = 1
     if robberTime + 10000 < pygame.time.get_ticks() and startRobbing == 1:
         curRobber = robber
@@ -563,10 +563,10 @@ screen.fill(white)
 while inExit:
     exitClock.tick(45)
     quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
-    quitButton.rect.x = screen.get_width() / 3 + 400
-    quitButton.rect.y = screen.get_height() / 3
+    quitButton.rect.x = screen.get_width() // 3 + 400
+    quitButton.rect.y = screen.get_height() // 3
     exitCollisionList.add(quitButton)
-    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     exitCollisionList.draw(screen)
 
     pygame.event.pump()
