@@ -181,7 +181,7 @@ def drawStoreInventory():
     global storeUpdate
     global storeCollisionList
     storeCollisionList = pygame.sprite.Group()
-    screen.fill(white, (0, 0, screen.get_width() // 3, screen.get_height()))
+    screen.fill(white, (0, screen.get_height() // 14, screen.get_width() // 3, screen.get_height()))
     storeText = myfont.render("Store Inventory", 1, (0, 0, 0))
     screen.blit(storeText, (150, 125))
     start = 5
@@ -412,7 +412,16 @@ while inMenu:
             if len(clicked) != 0:
                 if clicked[0].name == "start":
                     inMenu = False
-makeBox()
+                    makeBox()
+                if clicked[0].name == "quit":
+                    inMenu = False
+                    playing_game = False
+                    pygame.mixer.music.stop()
+        if event.type == pygame.QUIT:
+            inMenu = False
+            pygame.mixer.quit()
+            playing_game = False
+
 startShopLifting = 0
 firstShoplifter = 0
 startRobbing = 0
@@ -440,15 +449,15 @@ while playing_game:
     if startRobbing == 0 and firstRobber == 1:
         drawReturnRobbing(curRobber, stolenAmount)
     # After 60000 ticks have a random event happen that affects the market
-    if curTime2 + 60000 < pygame.time.get_ticks():
+    if curTime2 + 20000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
         text = customer.supplierRandomPriceChange(supplier)
         eventText = myfont.render("{0}".format(text), 1, (0, 0, 0))
-        screen.fill(white)
+        screen.fill(white, (0, 0, screen.get_width(), 100))
         storeUpdate = 1
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
-        makeBox()
+
     if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep the 2k offset to avoid overlap
         firstShoplifter = 1
         shoplifterTime = pygame.time.get_ticks()
@@ -538,4 +547,32 @@ while playing_game:
         #                pygame.draw.rect(screen, (255,0,0), rect) #drat new
         #                pygame.display.update(rect)
         menu.react(event)  # the menu automatically integrate your elements
+inExit = True
+exitClock = pygame.time.Clock()
+exitCollisionList = pygame.sprite.Group()
+screen.fill(white)
+while inExit:
+    exitClock.tick(45)
+    quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
+    quitButton.rect.x = screen.get_width() / 3 + 400
+    quitButton.rect.y = screen.get_height() / 3
+    exitCollisionList.add(quitButton)
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))
+    exitCollisionList.draw(screen)
+
+    pygame.event.pump()
+    pygame.display.flip()
+
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            clicked = [c for c in exitCollisionList if c.rect.collidepoint(pos)]
+            if len(clicked) != 0:
+                if clicked[0].name == "quit":
+                    inExit = False
+                    pygame.mixer.music.stop()
+        if event.type == pygame.QUIT:
+            inExit = False
+            pygame.mixer.quit()
+
 pygame.quit()
