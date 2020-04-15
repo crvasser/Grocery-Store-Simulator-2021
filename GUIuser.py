@@ -478,7 +478,7 @@ while playing_game:
         startRobbing = 0
     # After 500 ticks take away 10 dollars in taxes
     if curTime + 10000 < pygame.time.get_ticks():
-        money.setMoney(money.getMoney() - (money.getMoney()*0.05))
+        money.setMoney(money.getMoney() - ((money.getMoney()*0.025) + 50))
         curTime = pygame.time.get_ticks()
     # After 10000 ticks have a customer come in and buy some random items
     if curTime1 + 10000 < pygame.time.get_ticks():
