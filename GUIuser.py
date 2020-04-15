@@ -9,7 +9,7 @@ import math
 layout = pygame.image.load("./pictures/Layout.PNG")
 layout1 = pygame.image.load("./pictures/apple.png")
 pygame.mixer.init()
-pygame.mixer.music.load("./Music/background.wav")
+pygame.mixer.music.load("./Music/Groovy.wav")
 pygame.mixer.music.play(loops=-1)
 
 
