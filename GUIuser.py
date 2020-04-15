@@ -547,4 +547,30 @@ while playing_game:
         #                pygame.draw.rect(screen, (255,0,0), rect) #drat new
         #                pygame.display.update(rect)
         menu.react(event)  # the menu automatically integrate your elements
+inExit = True
+screen.fill(white)
+menuCollisionList.remove(startButton)
+menuCollisionList.remove(quitButton)
+while inExit:
+    menuClock.tick(45)
+    quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
+    quitButton.rect.x = screen.get_width() / 3 + 400
+    quitButton.rect.y = screen.get_height() / 3
+    menuCollisionList.add(quitButton)
+    menuCollisionList.draw(screen)
+    pygame.event.pump()
+    pygame.display.flip()
+    screen.blit(layout, (screen.get_width() / 3, screen.get_height() / 3))  # this should have the actual title image
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+            clicked = [c for c in menuCollisionList if c.rect.collidepoint(pos)]
+            if len(clicked) != 0:
+                if clicked[0].name == "quit":
+                    inExit = False
+                    pygame.mixer.music.stop()
+        if event.type == pygame.QUIT:
+            inExit = False
+            pygame.mixer.quit()
+
 pygame.quit()
