@@ -48,6 +48,7 @@ def finishPurchase():
     global flagInvalidPrice
     global flagInvalidAmount
     global madePurchase
+    global flagNotEnoughMoney
     madePurchase = 1
     flagUnavail = 0
     flagInvalidPrice = 0
@@ -57,16 +58,21 @@ def finishPurchase():
     if len(product) != 0:
         if amount.isdigit():
             if doubleCheck(sellPrice):
-                if store.add(product, int(amount), supplier, float(sellPrice), money):
-                    print("amount", amount)
-                    print("sellPrice", sellPrice)
-                    print("product", product)
-                    product = ""
-                    successfulPurchase()
+                if money.getMoney() > supplier.sellerItemPrice(product) * int(amount):
+                    if store.add(product, int(amount), supplier, float(sellPrice), money):
+                        print("amount", amount)
+                        print("sellPrice", sellPrice)
+                        print("product", product)
+                        product = ""
+                        successfulPurchase()
 
+                    else:
+                        product = ""
+                        flagUnavail = 1  # supplier doesn't have enough of that item
+                        makeBox()
                 else:
-                    product = ""
-                    flagUnavail = 1  # supplier doesn't have enough of that item
+                    product = " "
+                    flagNotEnoughMoney = 1  # you don't have enough money
                     makeBox()
             else:
                 product = ""
@@ -120,8 +126,8 @@ def drawSupplierInventory():
     global supplierUpdate
     global supplierCollisionList
     screen.fill(white, (
-    screen.get_width() // 3 + screen.get_width() // 3, screen.get_height() // 14, screen.get_width() // 3,
-    screen.get_height()))
+        screen.get_width() // 3 + screen.get_width() // 3, screen.get_height() // 14, screen.get_width() // 3,
+        screen.get_height()))
     supplierCollisionList = pygame.sprite.Group()
     supplierText = myfont.render("Supplier Inventory", 1, (0, 0, 0))
     screen.blit(supplierText, (1500, 125))
@@ -224,6 +230,7 @@ def makeBox():
     global flagUnavail
     global flagInvalidPrice
     global flagInvalidAmount
+    global flagNotEnoughMoney
     global madePurchase
     global storeUpdate
     global supplierUpdate
@@ -246,6 +253,9 @@ def makeBox():
         title_element = thorpy.make_text("Invalid price entered", 15, (255, 0, 0))
     elif flagInvalidAmount == 1:
         title_element = thorpy.make_text("Invalid amount entered", 15, (255, 0, 0))
+    elif flagNotEnoughMoney == 1:
+        title_element = thorpy.make_text("You don't have enough money", 15, (255, 0, 0))
+    flagNotEnoughMoney = 0
     flagUnavail = 0
     flagInvalidPrice = 0
     flagInvalidAmount = 0
@@ -330,6 +340,7 @@ def drawReturnShoplifting(shoplifter):
     shoplifterCollisionList.remove(shoplifter)
 
 
+flagNotEnoughMoney = 0
 shopping = 0
 text = ""
 madePurchase = 1
