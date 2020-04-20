@@ -8,6 +8,7 @@ import math
 
 layout = pygame.image.load("./pictures/Layout.PNG")
 layout1 = pygame.image.load("./pictures/gss.png")
+layout2 = pygame.image.load("./pictures/gssgameover.png")
 pygame.mixer.init()
 pygame.mixer.music.load("./Music/Futuristic.wav")
 pygame.mixer.music.play(loops=-1)
@@ -577,7 +578,7 @@ while inExit:
     quitButton.rect.x = screen.get_width() // 3 + 400
     quitButton.rect.y = screen.get_height() // 3
     exitCollisionList.add(quitButton)
-    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
+    screen.blit(layout2, (0, 0))
     exitCollisionList.draw(screen)
 
     pygame.event.pump()
