@@ -9,8 +9,11 @@ import math
 layout = pygame.image.load("./pictures/Layout.PNG")
 layout1 = pygame.image.load("./pictures/gss.png")
 layout2 = pygame.image.load("./pictures/gssgameover.png")
+songs = ["Groovy", "Futuristic", "background"]
+songnum = randint(0, 2)
+songname = songs[songnum]
 pygame.mixer.init()
-pygame.mixer.music.load("./Music/Futuristic.wav")
+pygame.mixer.music.load("./Music/" + songname + ".wav")
 pygame.mixer.music.play(loops=-1)
 pygame.mixer.music.set_volume(.5)
 
@@ -399,6 +402,9 @@ curTime2 = pygame.time.get_ticks()
 shoplifterTime = pygame.time.get_ticks()
 shoplifterCollisionList = pygame.sprite.Group()
 robberTime = pygame.time.get_ticks()
+
+
+songTime = pygame.time.get_ticks()
 robberCollisionList = pygame.sprite.Group()
 startClearing = 0
 text = ""
@@ -447,6 +453,15 @@ startRobbing = 0
 firstRobber = 0
 while playing_game:
     clock.tick(45)
+
+    if songTime + 60000 < pygame.time.get_ticks():
+        songnum = randint(0, 2)
+        songname = songs[songnum]
+        pygame.mixer.init()
+        pygame.mixer.music.load("./Music/" + songname + ".wav")
+        pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(.5)
+
     pygame.display.flip()
     screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
     if startShopping == 1:
@@ -467,7 +482,7 @@ while playing_game:
         drawRobbing(robber)
     if startRobbing == 0 and firstRobber == 1:
         drawReturnRobbing(curRobber, stolenAmount)
-    # After 60000 ticks have a random event happen that affects the market
+    # After 20000 ticks have a random event happen that affects the market
     if curTime2 + 20000 < pygame.time.get_ticks():
         curTime2 = pygame.time.get_ticks()
         text = customer.supplierRandomPriceChange(supplier)
