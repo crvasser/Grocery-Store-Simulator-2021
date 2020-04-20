@@ -455,6 +455,7 @@ while playing_game:
     clock.tick(45)
 
     if songTime + 60000 < pygame.time.get_ticks():
+        songTime = pygame.time.get_ticks()
         songnum = randint(0, 2)
         songname = songs[songnum]
         pygame.mixer.init()
