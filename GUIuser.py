@@ -585,6 +585,8 @@ while playing_game:
         #                pygame.draw.rect(screen, (255,0,0), rect) #drat new
         #                pygame.display.update(rect)
         menu.react(event)  # the menu automatically integrate your elements
+        if len(supplier.inventory) == 0 and len(store.inventory) == 0:
+            playing_game = False
 exitClock = pygame.time.Clock()
 exitCollisionList = pygame.sprite.Group()
 screen.fill(white)
