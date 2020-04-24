@@ -416,8 +416,8 @@ menuClock = pygame.time.Clock()
 
 while inMenu:
     menuClock.tick(45)
-    startButton = Item(500, 500, "start", "Apples")  # this should have start button image
-    quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
+    startButton = Item(500, 500, "start", "Start")  # this should have start button image
+    quitButton = Item(500, 500, "quit", "Quit")  # this should have quit button image
     quitButton.rect.x = screen.get_width() // 3 + 400
     quitButton.rect.y = screen.get_height() // 3
     startButton.rect.y = screen.get_height() // 3
@@ -592,7 +592,7 @@ exitCollisionList = pygame.sprite.Group()
 screen.fill(white)
 while inExit:
     exitClock.tick(45)
-    quitButton = Item(500, 500, "quit", "Bananas")  # this should have quit button image
+    quitButton = Item(500, 500, "quit", "Quit")  # this should have quit button image
     quitButton.rect.x = screen.get_width() // 3 + 400
     quitButton.rect.y = screen.get_height() // 3
     exitCollisionList.add(quitButton)
