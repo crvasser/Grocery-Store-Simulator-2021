@@ -18,6 +18,8 @@ pygame.mixer.music.play(loops=-1)
 pygame.mixer.music.set_volume(.5)
 
 
+# Main sprite class, width and height are unused, itemName is a string used to refrence the object
+# Filename is used to get an image out of the pictures/TSP/ directory, must end with .png
 class Item(pygame.sprite.Sprite):
     def __init__(self, width, height, itemName, fileName):
         super().__init__()
@@ -30,6 +32,7 @@ class Item(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
+# checks if a value is a double
 def doubleCheck(myFloat):
     try:
         num = float(myFloat)
@@ -155,6 +158,7 @@ def drawSupplierInventory():
     supplierUpdate = 0
 
 
+# draws a shopper walking to the isle
 def drawStartShopping(shopper):
     global customerCollisionList1
 
@@ -164,6 +168,7 @@ def drawStartShopping(shopper):
     customerCollisionList1.remove(shopper)
 
 
+# draws a shopper walking away from the isle empty handed
 def drawFailedShopping(shopper):
     global customerCollisionList2
     if shopper.rect.x > screen.get_width() // 3:
@@ -173,6 +178,7 @@ def drawFailedShopping(shopper):
     customerCollisionList2.remove(shopper)
 
 
+# draws a shopper walking away from the isle with his purchased item
 def drawSuccessfulShopping(shopper, purchase):
     global customerCollisionList2
 
@@ -294,10 +300,7 @@ def makeBox():
     supplierUpdate = 1
 
 
-def drawStartMenu():
-    screen.blit(layout, (screen.get_width() // 3, screen.get_height() // 3))
-
-
+# draws a shoplifter walking to an isle
 def drawShopLifting(shoplifter):
     global shoplifterCollisionList
     shoplifter.rect.x = shoplifter.rect.x + 1
@@ -306,6 +309,7 @@ def drawShopLifting(shoplifter):
     shoplifterCollisionList.remove(shoplifter)
 
 
+# draws a robber walking to the cash register
 def drawRobbing(robber):
     global robberCollisionList
     if robber.rect.x < screen.get_width() / 3 + 200:
@@ -318,6 +322,7 @@ def drawRobbing(robber):
     robberCollisionList.remove(robber)
 
 
+# draws the robber returning, prints how much he stole for a short period of time
 def drawReturnRobbing(robber, stolenAmount):
     global robberCollisionList
 
@@ -335,6 +340,7 @@ def drawReturnRobbing(robber, stolenAmount):
     robberCollisionList.remove(robber)
 
 
+# draws the shoplifter returning, has a big hat if he took something
 def drawReturnShoplifting(shoplifter):
     global shoplifterCollisionList
     if shoplifter.rect.x > screen.get_width() // 3:
@@ -403,7 +409,6 @@ shoplifterTime = pygame.time.get_ticks()
 shoplifterCollisionList = pygame.sprite.Group()
 robberTime = pygame.time.get_ticks()
 
-
 songTime = pygame.time.get_ticks()
 robberCollisionList = pygame.sprite.Group()
 startClearing = 0
@@ -418,10 +423,10 @@ while inMenu:
     menuClock.tick(45)
     startButton = Item(500, 500, "start", "Start")  # this should have start button image
     quitButton = Item(500, 500, "quit", "Quit")  # this should have quit button image
-    quitButton.rect.x = screen.get_width() // 3 + 400
+    quitButton.rect.x = screen.get_width() // 3 + 200
     quitButton.rect.y = screen.get_height() // 3
     startButton.rect.y = screen.get_height() // 3
-    startButton.rect.x = screen.get_width() // 3
+    startButton.rect.x = screen.get_width() // 3 - 200
     menuCollisionList.add(quitButton)
     menuCollisionList.add(startButton)
     menuCollisionList.draw(screen)
@@ -492,7 +497,7 @@ while playing_game:
         storeUpdate = 1
         supplierUpdate = 1
         screen.blit(eventText, (5, 60))
-
+    # if statement for starting shoplifter walking in
     if shoplifterTime + 22000 < pygame.time.get_ticks() and startShopLifting == 0:  # change time added to shoplifting time for balance keep the 2k offset to avoid overlap
         firstShoplifter = 1
         shoplifterTime = pygame.time.get_ticks()
@@ -500,8 +505,8 @@ while playing_game:
         shoplifter.rect.x = screen.get_width() // 3
         shoplifter.rect.y = screen.get_height() // 3 + 270
         startShopLifting = 1
+    # if statement for shoplifter walking out, has large hat if he took something otherwise no sprite change
     if shoplifterTime + 10000 < pygame.time.get_ticks() and startShopLifting == 1:  # keep this as is
-
         shoplifterTime = pygame.time.get_ticks()
         stolen = customer.shoplifterStealProduct(store)
         if stolen:
@@ -512,6 +517,7 @@ while playing_game:
         curShoplifter.rect.y = shoplifter.rect.y
         startShopLifting = 0
         storeUpdate = 1
+    # if statement for robber walking in
     if robberTime + 32000 < pygame.time.get_ticks() and startRobbing == 0:
         firstRobber = 1
         robberTime = pygame.time.get_ticks()
@@ -519,12 +525,13 @@ while playing_game:
         robber.rect.x = screen.get_width() // 3
         robber.rect.y = screen.get_height() // 3 + 270
         startRobbing = 1
+    # if statement for robber walking out
     if robberTime + 10000 < pygame.time.get_ticks() and startRobbing == 1:
         curRobber = robber
         robberTime = pygame.time.get_ticks()
         stolenAmount = customer.robberStealMoney(money)
         startRobbing = 0
-    # After 500 ticks take away 10 dollars in taxes
+    # After 500 ticks take away (money.getMoney() * 0.025) + 50) dollars in taxes
     if curTime + 10000 < pygame.time.get_ticks():
         money.setMoney(money.getMoney() - ((money.getMoney() * 0.025) + 50))
         curTime = pygame.time.get_ticks()
@@ -550,17 +557,19 @@ while playing_game:
             shopFail = 1
             shopSuccess = 0
     screen.fill(white, (0, 0, screen.get_width() // 8, screen.get_height() // 20))
-    scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))
+    scoretext = myfont.render("Money {0}".format(round(money.getMoney(), 2)), 1, (0, 0, 0))  # print out money
     screen.blit(scoretext, (5, 10))
+    # if flagged for supplier update, update supplier inventory
     if supplierUpdate == 1:
         drawSupplierInventory()
+    # if flagged for store update, update store inventory
     if storeUpdate == 1:
         drawStoreInventory()
     # When money hits 0, game over
     if money.getMoney() < 0:
         playing_game = False
 
-    # Mostly unused event handler, keeping it as reference
+    # event handler, currently only handles collision on the menus, and windows X button
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
@@ -590,10 +599,10 @@ while playing_game:
 exitClock = pygame.time.Clock()
 exitCollisionList = pygame.sprite.Group()
 screen.fill(white)
-while inExit:
+while inExit:  # loop for exit menu, contains exit screen and quit button
     exitClock.tick(45)
     quitButton = Item(500, 500, "quit", "Quit")  # this should have quit button image
-    quitButton.rect.x = screen.get_width() // 3 + 400
+    quitButton.rect.x = screen.get_width() // 3 + 200
     quitButton.rect.y = screen.get_height() // 3
     exitCollisionList.add(quitButton)
     screen.blit(layout2, (0, 0))
